@@ -3,11 +3,7 @@
  **************************************************************************** */
 
 import CONFIG from 'config';
-import savedSamples from 'saved_samples';
 import appModel from 'app_model';
-import userModel from 'user_model';
-import { set as setMobXAttrs } from 'mobx';
-import loader from 'helpers/loader';
 import Log from './log';
 import Analytics from './analytics';
 
@@ -65,10 +61,10 @@ function versionCompare(left, right) {
 
 export function updateSamples(samples, callback) {
   samples.each(sample => {
-    const { group } = sample.attrs;
+    const group = sample.get('group');
     if (group) {
       Log('Update: moving a sample group to activity');
-      sample.attrs.activity = group;
+      sample.set('activity', group);
       sample.unset('group');
       sample.save();
     }
@@ -83,32 +79,20 @@ const API = {
    */
   run(callback, silent = false) {
     appModel._init.then(() => {
-      let currentVersion = appModel.attrs.appVersion;
+      const currentVersion = appModel.get('appVersion');
 
       const newVersion = CONFIG.version;
-      let currentBuild = appModel.attrs.appBuild;
+      const currentBuild = appModel.get('appBuild');
       const newBuild = CONFIG.build;
-
-      // part of 4.0.0 update START
-      const oldStr = localStorage.getItem('irecord-app-app');
-      const old = JSON.parse(oldStr);
-      if (old && typeof old === 'object' && old.appVersion) {
-        currentVersion = old.appVersion;
-        currentBuild = old.appBuild;
-        delete old.appVersion;
-        delete old.appBuild;
-        localStorage.setItem('irecord-app-app', JSON.stringify(old));
-      }
-      // part of 4.0.0 update END
 
       // when Beta testing we set training mode
       if (currentVersion !== newVersion || currentBuild !== newBuild) {
-        appModel.attrs.useTraining = CONFIG.training;
+        appModel.set('useTraining', CONFIG.training);
       }
 
       let savePromise = Promise.resolve();
       if (currentBuild !== newBuild) {
-        appModel.attrs.appBuild = newBuild;
+        appModel.set('appBuild', newBuild);
         savePromise = appModel.save();
       }
 
@@ -116,7 +100,7 @@ const API = {
         if (currentVersion !== newVersion) {
           // TODO: check for backward downgrade
           // set new app version
-          appModel.attrs.appVersion = newVersion;
+          appModel.set('appVersion', newVersion);
           appModel.save().then(() => {
             // first install
             if (!currentVersion) {
@@ -138,75 +122,13 @@ const API = {
    * The sequence of updates that should take place.
    * @type {string[]}
    */
-  updatesSeq: ['3.0.0', '4.0.0'],
+  updatesSeq: [],
 
   /**
    * Update functions.
    * @type {{['1.1.0']: (())}}
    */
-  updates: {
-    '3.0.0': callback => {
-      Log('Update: version 3.0.0', 'i');
-
-      function onFinish() {
-        Log('Update: finished.', 'i');
-        callback();
-      }
-
-      if (savedSamples.fetching) {
-        Log('Update: waiting for samples collection to be ready', 'i');
-        savedSamples.once('fetching:done', () =>
-          updateSamples(savedSamples, onFinish)
-        );
-        savedSamples.once('fetching:error', callback);
-        return;
-      }
-
-      updateSamples(savedSamples, onFinish);
-    },
-
-    '4.0.0': callback => {
-      Log('Update: version 4.0.0', 'i');
-
-      function onFinish() {
-        Log('Update: finished.', 'i');
-        callback();
-      }
-
-      function onError() {
-        Log('Update: errored.', 'e');
-        callback();
-      }
-
-      const userModelPromise = new Promise(resolve => {
-        const oldStr = localStorage.getItem('irecord-app-user');
-        const old = JSON.parse(oldStr);
-        if (old && typeof old === 'object') {
-          Log('Update: updating userModel.', 'i');
-          setMobXAttrs(userModel.attrs, old);
-          localStorage.removeItem('irecord-app-user');
-          userModel.save().then(resolve);
-          return;
-        }
-        resolve();
-      });
-
-      const appModelPromise = new Promise(resolve => {
-        const oldStr = localStorage.getItem('irecord-app-app');
-        const old = JSON.parse(oldStr);
-        if (old && typeof old === 'object') {
-          Log('Update: updating appModel.', 'i');
-          setMobXAttrs(appModel.attrs, old);
-          localStorage.removeItem('irecord-app-app');
-          appModel.save().then(resolve);
-          return;
-        }
-        resolve();
-      });
-
-      Promise.all([userModelPromise, appModelPromise]).then(onFinish, onError);
-    },
-  },
+  updates: {},
 
   _initApplyUpdates(currentVersion, callback, silent) {
     // find first update
@@ -221,10 +143,11 @@ const API = {
     }
 
     if (!silent) {
-      loader.show({
-        header: 'Updating',
-        message: t('This should take only a moment...'),
-      });
+      // radio.trigger('app:dialog:show', {
+      //   title: 'Updating',
+      //   body: 'This should take only a moment...',
+      //   hideAllowed: false,
+      // });
     }
     const startTime = Date.now();
 
@@ -232,7 +155,10 @@ const API = {
     return API._applyUpdates(firstUpdate, error => {
       if (error) {
         if (!silent) {
-          error('Sorry, an error has occurred while updating the app');
+          // radio.trigger(
+          //   'app:dialog:error',
+          //   'Sorry, an error has occurred while updating the app'
+          // );
         }
         return null;
       }
@@ -241,13 +167,13 @@ const API = {
       if (timeDiff < MIN_UPDATE_TIME) {
         setTimeout(() => {
           if (!silent) {
-            loader.hide();
+            // radio.trigger('app:dialog:hide', true);
           }
           callback();
         }, MIN_UPDATE_TIME - timeDiff);
       } else {
         if (!silent) {
-          loader.hide();
+          // radio.trigger('app:dialog:hide', true);
         }
         callback();
       }
@@ -311,7 +237,6 @@ const API = {
         if (!fullRestartRequired) {
           return callback();
         }
-        // TODO:
         // radio.trigger('app:restart');
         return null;
       }

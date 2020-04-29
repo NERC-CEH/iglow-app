@@ -21,7 +21,7 @@ const API = {
     // geolocation config
     const GPSoptions = {
       enableHighAccuracy: true,
-      maximumAge: 1, // ms
+      maximumAge: 0,
       timeout: API.TIMEOUT,
     };
 

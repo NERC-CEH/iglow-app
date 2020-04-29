@@ -1,17 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { IonPage, NavContext } from '@ionic/react';
+import { IonPage } from '@ionic/react';
 import Log from 'helpers/log';
 import Device from 'helpers/device';
-import { warn, error } from 'helpers/toast';
-import loader from 'helpers/loader';
+import alert from 'common/helpers/alert';
+import loader from 'common/helpers/loader';
 import AppHeader from 'Components/Header';
 import Main from './Main';
 
 async function onLogin(userModel, details, onSuccess) {
   const { name, password } = details;
   if (!Device.isOnline()) {
-    warn(t("Sorry, looks like you're offline."));
+    alert({
+      header: t('Offline'),
+      message: t("Sorry, looks like you're offline."),
+      buttons: [t('OK')],
+    });
     return;
   }
   await loader.show({
@@ -26,35 +30,27 @@ async function onLogin(userModel, details, onSuccess) {
   try {
     await userModel.logIn(loginDetails);
 
-    onSuccess();
+    onSuccess && onSuccess();
+    window.history.back();
   } catch (err) {
     Log(err, 'e');
-    error(`${err.message}`);
+    alert({
+      header: t('Sorry'),
+      message: err.message,
+      buttons: [t('OK')],
+    });
   }
 
   loader.hide();
 }
 
 export default function LoginContainer({ userModel, onSuccess }) {
-  const context = useContext(NavContext);
-
-  const onSuccessReturn = () => {
-    onSuccess && onSuccess();
-    const { from } = context.getLocation().state;
-    if (from && !from.pathname.includes('/info/menu')) {
-      window.history.back();
-      return;
-    }
-
-    context.goBack();
-  };
-
   return (
     <IonPage>
       <AppHeader title={t('Login')} />
       <Main
         schema={userModel.loginSchema}
-        onSubmit={details => onLogin(userModel, details, onSuccessReturn)}
+        onSubmit={details => onLogin(userModel, details, onSuccess)}
       />
     </IonPage>
   );

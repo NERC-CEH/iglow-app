@@ -10,7 +10,6 @@ const PrivateRoute = ({ component }) => {
     }
     return (
       <Redirect
-        push
         to={{
           pathname: '/user/login',
           state: { from: props.location }, // eslint-disable-line

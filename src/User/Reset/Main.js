@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IonButton, IonList } from '@ionic/react';
-import AppMain from 'Components/Main';
+import { IonContent, IonButton, IonList } from '@ionic/react';
 import { person } from 'ionicons/icons';
 import { Formik, Form } from 'formik';
 import InputWithValidation from 'Components/InputWithValidation';
 
 const Component = ({ onSubmit, schema }) => {
   return (
-    <AppMain id="reset-page">
+    <IonContent id="reset-page">
       <div className="info-message">
         <p>
           {t(
@@ -19,7 +18,6 @@ const Component = ({ onSubmit, schema }) => {
       <Formik
         validationSchema={schema}
         onSubmit={onSubmit}
-        initialValues={{}}
         render={props => (
           <Form>
             <IonList lines="full">
@@ -31,14 +29,15 @@ const Component = ({ onSubmit, schema }) => {
                 {...props}
               />
             </IonList>
-
-            <IonButton color="primary" type="submit" expand="block">
-              {t('Reset')}
-            </IonButton>
+            <IonList class="login-buttons">
+              <IonButton expand="full" color="primary" type="submit">
+                {t('Reset')}
+              </IonButton>
+            </IonList>
           </Form>
         )}
       />
-    </AppMain>
+    </IonContent>
   );
 };
 

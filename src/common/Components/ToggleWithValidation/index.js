@@ -5,7 +5,7 @@ import { informationCircleOutline } from 'ionicons/icons';
 import Toggle from 'Components/Toggle';
 import './styles.scss';
 
-const ToggleWithValidation = ({
+const InputWithValidation = ({
   name,
   label,
   icon,
@@ -43,17 +43,17 @@ const ToggleWithValidation = ({
   );
 };
 
-ToggleWithValidation.propTypes = {
+InputWithValidation.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
     PropTypes.string,
   ]),
-  icon: PropTypes.object,
+  icon: PropTypes.string,
   setFieldValue: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
 };
-export default ToggleWithValidation;
+export default InputWithValidation;

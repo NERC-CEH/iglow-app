@@ -1,170 +1,136 @@
 import React from 'react';
-import { IonList, IonItem, IonLabel, IonPage } from '@ionic/react';
-import AppMain from 'Components/Main';
+import { IonContent, IonList, IonItem, IonLabel, IonPage } from '@ionic/react';
 import AppHeader from 'Components/Header';
-import './sponsors.svg';
+import appModel from 'app_model';
+import species from 'common/data/species.data.json';
 import './styles.scss';
 
-export default () => (
-  <IonPage>
-    <AppHeader title={t('Credits')} />
-    <AppMain id="credits" class="ion-padding">
-      <IonList lines="none">
-        <IonItem>
-          <img src="/images/sponsors.svg" alt="" />
-        </IonItem>
-      </IonList>
+export default () => {
+  const { language } = appModel.attrs;
+  const showKarolina = !['mk_MK', 'sr_RS'].includes(language);
 
-      <IonList lines="none">
-        <IonItem lines="inset">
-          <IonLabel>
-            <b>
-              {t(
-                'We are very grateful for all the people that helped to create this app:'
-              )}
-            </b>
-          </IonLabel>
-        </IonItem>
+  return (
+    <IonPage>
+      <AppHeader title={t('Credits')} />
+      <IonContent id="credits" class="ion-padding">
+        <IonList>
+          <IonItem>
+            <IonLabel>
+              {t('This App was produced through MammalNet and funded by EFSA.')}
+            </IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>
+              {`${t('Maps produced')} © Societas Europaea Mammalogica 2019`}
+            </IonLabel>
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel>
+              {t(`Icons made by`)}{' '}
+              <a
+                href="https://www.flaticon.com/authors/freepik"
+                title="Freepik"
+              >
+                Freepik
+              </a>{' '}
+              {t('from')}{' '}
+              <a href="https://www.flaticon.com/" title="Flaticon">
+                www.flaticon.com
+              </a>
+            </IonLabel>
+          </IonItem>
+        </IonList>
 
-        <IonItem>
-          <IonLabel>
-            <b>David Roy</b>
-            {' '}
-(UK Centre for Ecology & Hydrology)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Karolis Kazlauskis</b>
-            {' '}
-(Flumens)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>John van Breda</b>
-            {' '}
-(Biodiverse IT)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Tom Humphrey</b>
-            {' '}
-(BSBI)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Martin Harvey</b>
-            {' '}
-(CEH)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Sally Rankin</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Colin Harrower</b>
-            {' '}
-(CEH)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Tom August</b>
-            {' '}
-(CEH)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Chris Raper</b>
-            {' '}
-(NHM)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Charles Roper</b>
-            {' '}
-(FSC)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Matt Smith</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Alan Rowland</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>David Genney</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Graham Checkley</b>
-          </IonLabel>
-        </IonItem>
-      </IonList>
+        <IonList lines="none">
+          <IonItem lines="inset">
+            <IonLabel>
+              <b>
+                {t(
+                  'We are very grateful for all the people that helped to create this app:'
+                )}
+              </b>
+            </IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>David Roy</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Karolis Kazlauskis</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Graham Smith</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Joaquin Vicente</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Jose A Blanco</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Oliver Keuling</IonLabel>
+          </IonItem>
+          {showKarolina && (
+            <IonItem>
+              <IonLabel>Karolina Petrović</IonLabel>
+            </IonItem>
+          )}
+          <IonItem>
+            <IonLabel>Massimo Scandura</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Nikica Šprem</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Nera Fabijanić</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Carmen Ruiz</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Javier Fernández López</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Phil Stephens</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Lucy Zhang</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Sammy Mason</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Emily Townley </IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Magnus Bower</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Tomasz Borowik</IonLabel>
+          </IonItem>
+        </IonList>
 
-      <IonList>
-        <IonItem lines="none">
-          <IonLabel>
-            {t('This app was part-funded by the')}
-            {' '}
-            <a href="https://www.ceh.ac.uk/">Centre for Ecology & Hydrology</a>
-/
-            <a href="http://jncc.defra.gov.uk/">
-              Joint Nature Conservation Committee
-            </a>
-            {' '}
-            {t('partnership supporting BRC')}
-          </IonLabel>
-        </IonItem>
-      </IonList>
-      <IonList lines="none">
-        <IonItem lines="inset">
-          <IonLabel>
-            <b>{t('Welcome screen credits:')}</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>David Kitching</IonItem>
-        <IonItem>UK Ladybird Survey</IonItem>
-      </IonList>
-      <IonList>
-        <IonItem lines="none">
-          <IonLabel>
-            {t('Icons were made by')}
-            {' '}
-            <a
-              href="https://www.flaticon.com/authors/nhor-phai"
-              title="Nhor Phai"
-            >
-              Nhor Phai
-            </a>
-            ,
-            {' '}
-            <a href="https://www.flaticon.com/authors/freepik" title="Freepik">
-              Freepik
-            </a>
-            {' '}
-            from
-            {' '}
-            <a href="https://www.flaticon.com/" title="Flaticon">
-              www.flaticon.com
-            </a>
-          </IonLabel>
-        </IonItem>
-      </IonList>
-    </AppMain>
-  </IonPage>
-);
+        <IonList>
+          <IonItem>
+            <IonLabel>
+              <b>{t('Photo credits:')}</b>
+            </IonLabel>
+          </IonItem>
+          {/* <IonItem> */}
+          {species
+            .filter(s => s.photoAttribution)
+            .map(s => (
+              <IonItem key={s.id} lines="none">
+                <IonLabel>
+                  <i>{`${s.taxon}: `}</i>
+                  <span
+                    dangerouslySetInnerHTML={{ __html: s.photoAttribution }}
+                  />
+                </IonLabel>
+              </IonItem>
+            ))}
+          {/* </IonItem> */}
+        </IonList>
+      </IonContent>
+    </IonPage>
+  );
+};

@@ -4,15 +4,15 @@
 
     ion-tab-button {
       max-width: 20vw;
-      --padding-start: 2px;
-      --padding-end: 2px;
     }
 
-    .activities-button-on {
-      ion-label,
-      ion-icon {
-        color: var(--ion-color-secondary);
-      }
+    .add-record {
+      background-color: var(--ion-color-light);
+      margin-top: -22px;
+      height: 64px;
+      max-width: 64px;
+      box-shadow: inset 0px 0 2px 0px;
+      border-radius: 50%;
     }
   }
 
@@ -28,52 +28,20 @@
     height: 100%;
     contain: size layout style;
   }
+}
 
-  ion-fab,
-  ion-fab-list {
-    // padding needed for iOS with no toolbar
-    padding-bottom: var(--ion-safe-area-bottom, 0);
-  }
+#home-report {
+  .empty {
+    width: 80%;
+    max-width: 250px;
+    margin: 100px auto 0;
+    --border-width: 0;
+    --background: var(--ion-color-light);
+    --color: var(--ion-color-light-contrast);
 
-  ion-fab-button:not(.fab-button-label) {
-    --box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.75);
-  }
-
-  ion-fab-button.activated,
-  ion-fab-button.fab-button-close-active {
-    --background: var(--custom-color-complex-survey);
-  }
-
-  ion-fab-button.fab-button-label {
-    width: 240px;
-    transform: translateX(-93px);
-    --border-radius: 4px;
-    --background: var(--custom-color-complex-survey);
-    --color: var(--ion-color-primary-contrast);
-
-    ion-label {
-      font-size: 1.2em;
-      width: 100%;
-      line-height: 40px;
+    span {
+      margin: 0 auto;
+      font-weight: 200;
     }
   }
-}
-
-ion-alert {
-  .tip-icon {
-    color: white;
-    vertical-align: bottom;
-    background: var(--ion-color-primary);
-    border-radius: 50%;
-    padding: 3px;
-  }
-}
-
-ion-fab .fab-list-active .fab-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(100, 100, 100, 0.5);
 }

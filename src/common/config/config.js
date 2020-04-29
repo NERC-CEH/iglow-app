@@ -51,11 +51,6 @@ const CONFIG = {
   log: !__TEST__,
 
   // error analytics
-  sentry: {
-    key: !__TEST__ && process.env.APP_SENTRY_KEY,
-    project: '1723203',
-  },
-
   users: {
     url: `${HOST + Indicia.API_BASE + Indicia.API_VER}/users/`,
     timeout: 80000,
@@ -196,7 +191,7 @@ const CONFIG = {
             'Dry (just bones left)': 17692,
           },
         },
-        
+
         method: {
           label: 'Method',
           type: 'radio',

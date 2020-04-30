@@ -1,5 +1,4 @@
 import 'helpers/system_checkup';
-import 'helpers/translator';
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { IonApp, IonPage, IonRouterOutlet } from '@ionic/react';
@@ -12,8 +11,6 @@ import userModel from 'user_model';
 import savedSamples from 'saved_samples';
 import LanguageCountrySelectRequired from 'Components/LanguageCountrySelectRequired';
 import Menu from 'Settings/Menu';
-import Language from 'Settings/Language';
-import Country from 'Settings/Country';
 import Home from './Home';
 import Login from './User/Login';
 import Register from './User/Register';
@@ -69,16 +66,6 @@ const App = () => (
                   render={() => (
                     <Menu appModel={appModel} userModel={userModel} />
                   )}
-                />
-                <Route
-                  path="/settings/language"
-                  exact
-                  render={() => <Language appModel={appModel} />}
-                />
-                <Route
-                  path="/settings/country"
-                  exact
-                  render={() => <Country appModel={appModel} />}
                 />
               </IonRouterOutlet>
             </Switch>

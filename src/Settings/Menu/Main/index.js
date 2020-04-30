@@ -13,7 +13,6 @@ import {
 } from '@ionic/react';
 import { undo, school, flag, globe, share } from 'ionicons/icons';
 import alert from 'common/helpers/alert';
-import { countries, languages } from 'helpers/translator';
 import config from 'config';
 import './styles.scss';
 
@@ -54,8 +53,6 @@ class Component extends React.Component {
       resetApp,
       onToggle,
       useTraining,
-      language,
-      country,
       sendAnalytics,
     } = this.props;
 
@@ -63,17 +60,6 @@ class Component extends React.Component {
       <IonContent class="app-settings">
         <IonList lines="full">
           <IonItemDivider>{t('Application')}</IonItemDivider>
-          <IonItem routerLink="/settings/language">
-            <IonLabel>{t('Language')}</IonLabel>
-            <IonIcon icon={flag} size="small" slot="start" />
-            <IonLabel slot="end">{languages[language]}</IonLabel>
-          </IonItem>
-          <IonItem routerLink="/settings/country">
-            <IonLabel>{t('Country')}</IonLabel>
-            <IonIcon icon={globe} size="small" slot="start" />
-            <IonLabel slot="end">{t(countries[country])}</IonLabel>
-          </IonItem>
-
           <IonItem>
             <IonIcon icon={school} size="small" slot="start" />
             <IonLabel>{t('Training Mode')}</IonLabel>

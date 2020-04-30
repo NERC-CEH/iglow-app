@@ -9,7 +9,7 @@ import Log from './log';
 // Print Hello
 const art = [
   '\n',
-  '* Find me: https://kazlauskis.com',
+  '* Find me: https://www.ceh.ac.uk/staff/biren-rathod',
 ].join('\n');
 
 Log(art);

@@ -39,7 +39,7 @@ const SplashScreen = () => {
         <div className="message">
           <p>
             {t(
-              `iMammalia is designed to make mammal recording easy. It holds a species list for Spain, Germany, Poland and Croatia but does not limit where you can record these animals.`
+              `iGlow is designed to make glowworm recording easy.`
             )}
           </p>
         </div>

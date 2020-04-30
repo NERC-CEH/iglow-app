@@ -1,18 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import SelectLanguage from 'Settings/Language';
-import SelectCountry from 'Settings/Country';
 
 const Component = observer(({ appModel, children }) => {
-  if (!appModel.get('language')) {
-    return <SelectLanguage appModel={appModel} hideHeader />;
-  }
-
-  if (!appModel.get('country')) {
-    return <SelectCountry appModel={appModel} hideHeader />;
-  }
-
   return children;
 });
 

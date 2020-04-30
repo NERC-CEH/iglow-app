@@ -29,8 +29,6 @@ function onToggle(appModel, setting, checked) {
 const Container = observer(({ appModel, userModel }) => {
   const useTraining = appModel.get('useTraining');
   const sendAnalytics = appModel.get('sendAnalytics');
-  const language = appModel.get('language');
-  const country = appModel.get('country');
 
   return (
     <IonPage>

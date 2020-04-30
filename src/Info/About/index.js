@@ -18,33 +18,33 @@ const Component = () => (
         <IonItem>
           <IonLabel>
             {t(
-              `The iMammalia App is designed to encourage recording of mammals in the wild. It is set up to easily record mammals in four pilot countries: Spain, Germany, Poland, Croatia, North Macedonia and Serbia. Sightings can be recorded from other countries across Europe, but currently the species list is limited to larger mammals found in those four countries.`
+              `The iGlow App is designed to encourage recording of firefly or glow-worm in the wild. It is set up to easily record glow-worm. Sightings can be recorded from other countries across Europe, but currently the species list is limited to larger glowworm found in UK.`
             )}
           </IonLabel>
         </IonItem>
         <IonItem>
           <IonLabel>
             {t(
-              `Sightings can be recorded anywhere, with or without photos, and all records will be verified by experts and made available to help with mapping the distribution of European mammals. You can check and update your records online.`
+              `Sightings can be recorded anywhere, with or without photos, and all records will be verified by experts and made available to help with mapping the distribution of gloworm. You can check and update your records online.`
             )}
           </IonLabel>
         </IonItem>
         <IonItem>
           <IonLabel>
             {t(
-              `iMammalia is designed to make mammal recording easy. It holds a species list for Spain, Germany, Poland, Croatia, North Macedonia and Serbia but does not limit where you can record these animals. Smaller mammals are currently only listed at the generic level since they are much harder to tell apart. Later versions will include more countries, languages and species subject to funding.`
+              `iGlow is designed to make glowworm recording easy.`
             )}
           </IonLabel>
         </IonItem>
         <IonItem>
           <IonLabel>
             {t(
-              `Users must first register, and can then log into a web site to view and correct records. Choice of country can be reviewed in the settings.`
+              `Users must first register, and can then log into a web site to view and correct records.`
             )}
             <br />
             <br />
-            <a href="https://european-mammals.brc.ac.uk">
-              https://european-mammals.brc.ac.uk
+            <a href="https://www.brc.ac.uk/irecord/">
+              https://www.brc.ac.uk/irecord
             </a>
           </IonLabel>
         </IonItem>
@@ -53,16 +53,13 @@ const Component = () => (
         </IonListHeader>
         <IonItem>
           <IonLabel>
-            {t('This app was hand crafted with love by')}
-            <a href="https://flumens.io" style={{ whiteSpace: 'nowrap' }}>
+            {t('This app was developed by')}
+            <a href="https://www.ceh.ac.uk" style={{ whiteSpace: 'nowrap' }}>
               {' '}
-              Flumens.
+              UKCEH
             </a>{' '}
-            {t(
-              'Agency specializing in building bespoke data oriented solutions.'
-            )}{' '}
             {t('For suggestions and feedback please do not hesitate to')}{' '}
-            <a href="mailto:imammalia%40ceh.ac.uk?subject=iMammalia%20App">
+            <a href="mailto:brc0ceh.ac.uk?subject=iGlow%20App">
               {t('contact us')}
             </a>
             .

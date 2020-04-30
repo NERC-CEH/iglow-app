@@ -52,63 +52,12 @@ export default () => {
             </IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>David Roy</IonLabel>
+            <IonLabel>John Day</IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Karolis Kazlauskis</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Graham Smith</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Joaquin Vicente</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Jose A Blanco</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Oliver Keuling</IonLabel>
-          </IonItem>
-          {showKarolina && (
-            <IonItem>
-              <IonLabel>Karolina Petrović</IonLabel>
-            </IonItem>
-          )}
-          <IonItem>
-            <IonLabel>Massimo Scandura</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Nikica Šprem</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Nera Fabijanić</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Carmen Ruiz</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Javier Fernández López</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Phil Stephens</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Lucy Zhang</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Sammy Mason</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Emily Townley </IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Magnus Bower</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Tomasz Borowik</IonLabel>
+            <IonLabel>Biren Rathod</IonLabel>
           </IonItem>
         </IonList>
-
         <IonList>
           <IonItem>
             <IonLabel>

@@ -34,8 +34,8 @@ export default () => (
             <IonIcon icon={person} />
             <br />
             <br />
-            <a href="https://european-mammals.brc.ac.uk">
-              https://european-mammals.brc.ac.uk
+            <a href="https://www.brc.ac.uk/irecord">
+              https://www.brc.ac.uk/irecord
             </a>
             <br />
             <br />

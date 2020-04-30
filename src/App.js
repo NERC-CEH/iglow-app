@@ -9,7 +9,6 @@ import 'common/styles/app.scss';
 import appModel from 'app_model';
 import userModel from 'user_model';
 import savedSamples from 'saved_samples';
-import LanguageCountrySelectRequired from 'Components/LanguageCountrySelectRequired';
 import Menu from 'Settings/Menu';
 import Home from './Home';
 import Login from './User/Login';
@@ -25,7 +24,6 @@ const App = () => (
   <IonApp>
     <IonReactRouter>
       <Route exact path="/" render={() => <Redirect to="/home/species" />} />
-      <LanguageCountrySelectRequired appModel={appModel}>
         <SplashScreenRequired>
           <IonPage id="main">
             <Switch>
@@ -71,7 +69,6 @@ const App = () => (
             </Switch>
           </IonPage>
         </SplashScreenRequired>
-      </LanguageCountrySelectRequired>
     </IonReactRouter>
   </IonApp>
 );

@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     },
     cordova_resources: {
       command: `mkdir -p dist/resources &&
-          
+
                 cp -R other/designs/android dist/resources &&
 
                 ./node_modules/.bin/sharp -i other/designs/splash.svg -o dist/resources/splash.png resize 2737 2737 -- removeAlpha &&
@@ -47,13 +47,13 @@ module.exports = function(grunt) {
     cordova_android_build: {
       command() {
         const pass = grunt.config('keystore-password');
-        return `cd dist/cordova && 
-            mkdir -p dist && 
-            cordova --release build android && 
+        return `cd dist/cordova &&
+            mkdir -p dist &&
+            cordova --release build android &&
             cd platforms/android/app/build/outputs/apk/release/ &&
-            jarsigner -keystore ${process.env.KEYSTORE} 
+            jarsigner -keystore ${process.env.KEYSTORE}
               -storepass ${pass} app-release-unsigned.apk iglow &&
-            zipalign 4 app-release-unsigned.apk main.apk && 
+            zipalign 4 app-release-unsigned.apk main.apk &&
             mv -f main.apk ../../../../../../../dist/`;
       },
 

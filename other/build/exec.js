@@ -52,7 +52,7 @@ module.exports = function(grunt) {
             cordova --release build android && 
             cd platforms/android/app/build/outputs/apk/release/ &&
             jarsigner -keystore ${process.env.KEYSTORE} 
-              -storepass ${pass} app-release-unsigned.apk irecord &&
+              -storepass ${pass} app-release-unsigned.apk iglow &&
             zipalign 4 app-release-unsigned.apk main.apk && 
             mv -f main.apk ../../../../../../../dist/`;
       },

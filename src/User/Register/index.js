@@ -1,21 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Log from 'helpers/log';
 import Device from 'helpers/device';
-import { IonPage } from '@ionic/react';
+import { IonPage, NavContext } from '@ionic/react';
+import { warn, error } from 'common/helpers/toast';
 import alert from 'common/helpers/alert';
 import loader from 'common/helpers/loader';
 import AppHeader from 'Components/Header';
 import Main from './Main';
 
-async function onRegister(userModel, details, lang) {
+async function onRegister(userModel, details, lang, onSuccess) {
   const { email, password, firstname, secondname } = details;
   if (!Device.isOnline()) {
-    alert({
-      header: t('Offline'),
-      message: t("Sorry, looks like you're offline."),
-      buttons: [t('OK')],
-    });
+    warn(t("Sorry, looks like you're offline."));
     return;
   }
   await loader.show({
@@ -44,19 +41,13 @@ async function onRegister(userModel, details, lang) {
         {
           text: t('OK, got it'),
           role: 'cancel',
-          handler() {
-            window.history.back();
-          },
+          handler: onSuccess,
         },
       ],
     });
   } catch (err) {
     Log(err, 'e');
-    alert({
-      header: t('Sorry'),
-      message: err.message,
-      buttons: [t('OK')],
-    });
+    error(`${err.message}`);
   }
 
   loader.hide();
@@ -64,13 +55,18 @@ async function onRegister(userModel, details, lang) {
 
 export default function RegisterContainer({ userModel, appModel }) {
   const lang = appModel.get('language');
+  const context = useContext(NavContext);
+
+  const onSuccess = () => {
+    context.goBack();
+  };
 
   return (
     <IonPage>
       <AppHeader title={t('Register')} />
       <Main
         schema={userModel.registerSchema}
-        onSubmit={details => onRegister(userModel, details, lang)}
+        onSubmit={details => onRegister(userModel, details, lang, onSuccess)}
         lang={lang}
       />
     </IonPage>

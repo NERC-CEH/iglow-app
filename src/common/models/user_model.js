@@ -2,11 +2,13 @@
  * User model describing the user model on backend. Persistent.
  **************************************************************************** */
 import Log from 'helpers/log';
-import { observable, set as setMobXAttrs } from 'mobx';
-import { getStore } from 'common/store';
+import { observable, set as setMobXAttrs, toJS } from 'mobx';
+import { store } from 'common/store';
 import makeRequest from 'common/helpers/makeRequest';
 import * as Yup from 'yup';
 import CONFIG from 'config';
+import activitiesExtension from './user_model_activities_ext';
+import statisticsExtension from './user_model_statistics_ext';
 
 const getDefaultAttrs = () => ({
   isLoggedIn: false,
@@ -16,10 +18,20 @@ const getDefaultAttrs = () => ({
   secondname: null,
   email: null,
   password: null,
+
+  activities: [],
+
+  statistics: {
+    synced_on: null,
+    species: [],
+    speciesRaw: [],
+  },
 });
 
 class UserModel {
   @observable attrs = getDefaultAttrs();
+
+  @observable activities = { synchronizing: false };
 
   loginSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -72,21 +84,24 @@ class UserModel {
 
   constructor() {
     Log('UserModel: initializing');
+    this._init = store.find('user').then(user => {
+      if (typeof user === 'string') {
+        // backwards compatibility
+        user = JSON.parse(user); // eslint-disable-line
+      }
 
-    this._init = getStore()
-      .then(store => store.getItem('user'))
-      .then(userStr => {
-        const user = JSON.parse(userStr);
-        if (!user) {
-          Log('UserModel: persisting for the first time');
-          this._initDone = true;
-          this.save();
-          return;
-        }
+      if (!user) {
+        Log('UserModel: persisting for the first time');
+        this.save();
+        return;
+      }
 
-        setMobXAttrs(this.attrs, user.attrs);
-        this._initDone = true;
-      });
+      setMobXAttrs(this.attrs, user.attrs);
+    });
+
+    // TODO:
+    // .then(() => this.statisticsExtensionInit())
+    // .then(() => this.activitiesExtensionInit());
   }
 
   get(name) {
@@ -98,14 +113,8 @@ class UserModel {
     return this;
   }
 
-  save() {
-    if (!this._initDone) {
-      throw new Error(`User Model can't be saved before initialisation`);
-    }
-    const userStr = JSON.stringify({
-      attrs: this.attrs,
-    });
-    return getStore().then(store => store.setItem('user', userStr));
+  async save() {
+    return store.save('user', { attrs: toJS(this.attrs) });
   }
 
   /**
@@ -161,7 +170,7 @@ class UserModel {
     let res;
     try {
       res = await makeRequest(CONFIG.users.url, options, CONFIG.users.timeout);
-      const isValidResponse = await this.registerSchemaBackend.isValid(res);
+      const isValidResponse = await this.registerSchemaBackend.isValid(res.data);
       if (!isValidResponse) {
         throw new Error('Invalid backend response.');
       }
@@ -169,7 +178,7 @@ class UserModel {
       throw new Error(t(e.message));
     }
 
-    const user = { ...res, ...{ password: details.password } };
+    const user = { ...res.data, ...{ password: details.password } };
     this._logIn(user);
   }
 
@@ -207,13 +216,17 @@ class UserModel {
   _logIn(user) {
     Log('UserModel: logging in.');
 
-    this.set('drupalID', user.id || '');
-    this.set('password', user.password || '');
-    this.set('email', user.email || '');
-    this.set('name', user.name || '');
-    this.set('firstname', user.firstname || '');
-    this.set('secondname', user.secondname || '');
-    this.set('isLoggedIn', true);
+    this.attrs.drupalID = user.id || '';
+    this.attrs.password = user.password || '';
+    this.attrs.email = user.email || '';
+    this.attrs.name = user.name || '';
+    this.attrs.firstname = user.firstname || '';
+    this.attrs.secondname = user.secondname || '';
+    this.attrs.isLoggedIn = true;
+
+    this.syncActivities();
+    // TODO:
+    // this.syncStats();
 
     return this.save();
   }
@@ -226,17 +239,23 @@ class UserModel {
   }
 
   getUser() {
-    return this.get('email');
+    return this.attrs.email;
   }
 
   getPassword() {
-    return this.get('password');
+    return this.attrs.password;
   }
 
   resetDefaults() {
     return this.logOut();
   }
 }
+
+// add activities management
+UserModel.prototype = Object.assign(UserModel.prototype, activitiesExtension);
+
+// add statistics management
+// UserModel.prototype = Object.assign(UserModel.prototype, statisticsExtension);
 
 const userModel = new UserModel();
 export { userModel as default, UserModel };

@@ -1,42 +1,45 @@
 import DateHelp from 'helpers/date';
 import Sample from 'sample';
 import Occurrence from 'occurrence';
+import userModel from 'user_model';
 import appModel from 'app_model';
 import Device from 'helpers/device';
-import savedSamples from '../../saved_samples';
+import coreAttributes from 'common/config/surveys';
+import defaultSurvey from 'common/config/surveys/default';
+import bryophytesSyrvey from 'common/config/surveys/taxon-groups/bryophytes';
+import dragonfliesSyrvey from 'common/config/surveys/taxon-groups/dragonflies';
+import stringify from 'json-stable-stringify';
 
 /* eslint-disable no-unused-expressions */
 const validTaxon = { warehouse_id: 1, group: 1 };
 
 function getRandomSample(taxon) {
   const occurrence = new Occurrence({
-    taxon: taxon || validTaxon,
+    attrs: {
+      taxon: taxon || validTaxon,
+    },
   });
-  const sample = new Sample(
-    {
+  const sample = new Sample({
+    attrs: {
       location: {
         latitude: 12.12,
         longitude: -0.23,
         name: 'automatic test',
       },
     },
-    {
-      occurrences: [occurrence],
-      Collection: savedSamples,
-      onSend: () => {}, // overwrite Collection's one checking for user login
-    }
-  );
+  });
 
+  sample.occurrences.push(occurrence);
   sample.metadata.saved = true;
 
   return sample;
 }
 
-describe.skip('Sample', () => {
+describe('Sample', () => {
   let sampleRemoteCreateStub;
   beforeEach(() => {
     sampleRemoteCreateStub = sinon
-      .stub(Sample.prototype, '_create')
+      .stub(Sample.prototype, '_createRemote')
       .resolves({ data: {} });
   });
 
@@ -46,79 +49,45 @@ describe.skip('Sample', () => {
 
   it('should have current date by default', () => {
     const sample = new Sample();
-    const date = sample.get('date');
+    const { date } = sample.attrs;
 
     expect(DateHelp.print(date)).to.be.equal(DateHelp.print(new Date()));
   });
 
   it('should set training mode', () => {
-    appModel.set('useTraining', false);
+    appModel.attrs.useTraining = false;
 
     let sample = getRandomSample();
     expect(sample.metadata.training).to.be.equal(false);
 
-    appModel.set('useTraining', true);
+    appModel.attrs.useTraining = true;
 
     sample = getRandomSample();
     expect(sample.metadata.training).to.be.equal(true);
   });
 
-  it('should not resend', done => {
-    const sample = getRandomSample(validTaxon);
-    sample.id = 123;
-    sample.metadata.server_on = new Date();
-    sample
-      .save(null, { remote: true })
-      .then(() => {
-        expect(sampleRemoteCreateStub.calledOnce).to.be.false;
-        done();
-      })
-      .catch(done);
-  });
+  describe('saveRemote', () => {
+    it('should not resend', async () => {
+      // Given
+      const sample = getRandomSample(validTaxon);
+      sample.id = 123;
+      sample.metadata.server_on = new Date();
 
-  describe('getKeys', () => {
-    it.skip('should call getSurvey and return its sample attrs', () => {
-      expect(false).to.be.equal(true);
+      // When
+      await sample.saveRemote();
+
+      // Then
+      expect(sampleRemoteCreateStub.calledOnce).to.be.false;
     });
   });
 
-  describe('validation', () => {
-    it('should return sample send false invalid if not saved', () => {
+  describe('validateRemote', () => {
+    it('should return invalids if incomplete', () => {
       const sample = getRandomSample();
-      delete sample.metadata.saved;
-      sample.setTaxon(validTaxon);
-      expect(sample.validate).to.be.a('function');
-      sample.clear();
+      delete sample.attrs.location;
+      const invalids = sample.validateRemote();
 
-      const invalids = sample.validate(null, { remote: true });
-      expect(invalids.attributes.send).to.be.false;
-    });
-
-    it('should return attributes and occurrence objects with invalids', () => {
-      const sample = getRandomSample();
-      sample.metadata.saved = true;
-      sample.clear();
-
-      let invalids = sample.validate({}, { remote: true });
-      expect(invalids)
-        .to.be.an('object')
-        .and.have.all.keys('attributes', 'occurrences', 'samples');
-
-      // sample
-      expect(invalids.attributes).to.have.all.keys(
-        'date',
-        'location',
-        'location name'
-      );
-
-      // occurrence
-      expect(invalids.occurrences).to.be.an('object').and.to.be.empty;
-
-      const occ = new Occurrence();
-      sample.addOccurrence(occ);
-      invalids = sample.validate(null, { remote: true });
-      expect(invalids.occurrences).to.not.be.empty;
-      expect(invalids.occurrences).to.have.property(occ.cid);
+      expect(invalids.attributes.location).to.be.equal('missing');
     });
   });
 
@@ -131,19 +100,135 @@ describe.skip('Sample', () => {
 
     it('should return a promise', () => {
       const sample = getRandomSample();
-      const promise = sample.setToSend();
-      expect(promise).to.be.an.instanceof(Promise);
+      expect(sample.setToSend()).to.be.an.instanceof(Promise);
     });
 
-    it('should not send if invalid, but set validationError', () => {
+    it('should return validation results if incomplete', () => {
+      // Given
       const sample = getRandomSample();
-      delete sample.attributes.location;
-      delete sample.metadata.saved;
-      const valid = sample.setToSend();
-      expect(valid).to.be.false;
+      delete sample.attrs.location;
 
-      expect(sample.validationError).to.be.an('object');
-      expect(sample.metadata.saved).to.be.false;
+      // When
+      const invalids = sample.validateRemote();
+
+      // Then
+      expect(invalids.attributes.location).to.be.equal('missing');
+    });
+  });
+
+  describe('removeOldTaxonAttributes', () => {
+    it('should remove all non core attributes on survey change', async () => {
+      // Given
+      const dragonfly = { group: dragonfliesSyrvey.taxonGroups[0] };
+      const sample = getRandomSample(dragonfly);
+      const [occ] = sample.occurrences;
+
+      sample.attrs.non_core_attr = 1;
+      occ.attrs.non_core_attr = 1;
+
+      // // When
+      const bryophyte = { group: bryophytesSyrvey.taxonGroups[0] };
+      sample.removeOldTaxonAttributes(occ, bryophyte);
+
+      // // Then
+      expect(sample.attrs.non_core_attr).to.be.an.undefined;
+      expect(occ.attrs.non_core_attr).to.be.an.undefined;
+    });
+
+    it('should retain all core attributes on survey change', () => {
+      // Given
+      const dragonfly = { group: dragonfliesSyrvey.taxonGroups[0] };
+      const sample = getRandomSample(dragonfly);
+      const [occ] = sample.occurrences;
+
+      // set all core attributes
+      const sampleKeys = coreAttributes
+        .filter(key => key.includes('smp:'))
+        .map(key => key.replace('smp:', ''));
+      const sampleKeyValues = {};
+      sampleKeys.forEach(key => {
+        sampleKeyValues[key] = Math.random();
+        sample.attrs[key] = sampleKeyValues[key];
+      });
+      const occKeys = coreAttributes
+        .filter(key => key.includes('occ:'))
+        .map(key => key.replace('occ:', ''));
+      const occKeyValues = {};
+      occKeys.forEach(key => {
+        occKeyValues[key] = Math.random();
+        sample.occurrences[0].attrs[key] = occKeyValues[key];
+      });
+
+      // When
+      const bryophyte = { group: bryophytesSyrvey.taxonGroups[0] };
+      sample.removeOldTaxonAttributes(occ, bryophyte);
+
+      // Then
+      sampleKeys.forEach(key => {
+        expect(sample.attrs[key]).to.eql(sampleKeyValues[key]);
+      });
+      occKeys.forEach(key => {
+        expect(occ.attrs[key]).to.eql(occKeyValues[key]);
+      });
+    });
+  });
+
+  describe.skip('Activities extension', () => {
+    function getRandActivity() {
+      const activity = {
+        id: (Math.random() * 100).toFixed(0),
+        name: '',
+        description: '',
+        type: '',
+        activity_from_date: '2015-01-01',
+        activity_to_date: '2020-01-01',
+      };
+      return activity;
+    }
+
+    it('should remove expired activities on init', done => {
+      const sample = getRandomSample();
+      const activity = getRandActivity();
+      userModel.attrs.activities = [activity];
+      userModel.save();
+      sample.attrs.activity = activity;
+      sample
+        .save()
+        .then(() => {
+          expect(sample.attrs.activity).to.be.an('object');
+
+          // expire activities
+          userModel.attrs.activities = [];
+          userModel.save();
+
+          // get the same sample - fresh
+          // const newCollection = new Collection([], { store, model: Sample });
+          // newCollection
+          //   .fetch()
+          //   .then(() => {
+          //     const newSample = newCollection.get(sample);
+          //     expect(newSample.attrs.activity).to.be.undefined;
+          //     done();
+          //   })
+          //   .catch(done);
+        })
+        .catch(done);
+    });
+
+    it('should remove expired activities on activities sync', () => {
+      const sample = getRandomSample();
+      const activity = getRandActivity();
+
+      // OK
+      userModel.attrs.activities = [activity];
+      sample.attrs.activity = activity;
+      userModel.trigger('sync:activities:end');
+      expect(sample.attrs.activity).to.be.an('object');
+
+      // expire
+      userModel.attrs.activities = [];
+      userModel.trigger('sync:activities:end');
+      expect(sample.attrs.activity).to.be.undefined;
     });
   });
 
@@ -156,7 +241,7 @@ describe.skip('Sample', () => {
     });
   });
 
-  describe('onSend', () => {
+  describe('getSubmission', () => {
     let devicePlatformStub;
     let deviceVersionStub;
     before(() => {
@@ -168,111 +253,90 @@ describe.skip('Sample', () => {
       devicePlatformStub.restore();
       deviceVersionStub.restore();
     });
-    function getFullRandomSample() {
-      const occ = new Occurrence({
-        taxon: validTaxon,
-      });
-      const sample = new Sample(
-        {
-          location: {
-            latitude: 12.12,
-            longitude: -0.23,
-            name: 'automatic test',
-          },
-        },
-        {
-          occurrences: [occ],
-          Collection: savedSamples,
-        }
-      );
-      return sample;
-    }
 
-    it('should return a promise', () => {
-      const sample = getFullRandomSample();
-      expect(sample.onSend()).to.be.instanceOf(Promise);
+    it('should add survey id and webform', () => {
+      // Given
+      const sample = getRandomSample();
+
+      // When
+      const [submission] = sample.getSubmission();
+
+      // Then
+      expect(submission.survey_id).to.exist;
+      expect(submission.input_form).to.exist;
     });
 
-    it('should not modify original submission', done => {
-      const sample = getFullRandomSample();
-      const submission = {};
-      sample
-        .onSend(submission)
-        .then(() => {
-          expect(Object.keys(submission).length).to.eql(0);
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should add survey id', done => {
-      const sample = getFullRandomSample();
-      const submission = {};
-      sample
-        .onSend(submission)
-        .then(returns => {
-          expect(returns[0].survey_id).to.exist;
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should add input form', done => {
-      const sample = getFullRandomSample();
-      const submission = {};
-      sample
-        .onSend(submission)
-        .then(returns => {
-          expect(returns[0].input_form).to.exist;
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should add a device platform', done => {
+    it('should add a device platform/version and app version', () => {
+      // Given
       devicePlatformStub.returns('Android');
-
-      const sample = getFullRandomSample();
-      const smpAttrs = sample.getSurvey().attrs.smp;
-      const submission = {};
-      sample
-        .onSend(submission)
-        .then(returns => {
-          expect(returns[0].fields[smpAttrs.device.id]).to.eql(
-            smpAttrs.device.values.Android
-          );
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should add a device version', done => {
       deviceVersionStub.returns(1);
+      const sample = getRandomSample();
+      const smpAttrs = sample.getSurvey().attrs;
 
-      const sample = getFullRandomSample();
-      const smpAttrs = sample.getSurvey().attrs.smp;
-      const submission = {};
-      sample
-        .onSend(submission)
-        .then(returns => {
-          expect(returns[0].fields[smpAttrs.device_version.id]).to.eql(1);
-          done();
-        })
-        .catch(done);
+      // When
+      const [{ fields }] = sample.getSubmission();
+
+      // Then
+      expect(fields[smpAttrs.device.id]).to.eql(smpAttrs.device.values.Android);
+      expect(fields[smpAttrs.device_version.id]).to.eql(1);
+      expect(fields[smpAttrs.app_version.id]).to.exist;
     });
 
-    it('should add a app version', done => {
-      const sample = getFullRandomSample();
+    it('should attach parent survey id to subsamples', () => {
+      // Given
+      const sample = getRandomSample();
+      sample.metadata.complex_survey = 'default';
+      delete sample.occurrences[0];
 
-      const smpAttrs = sample.getSurvey().attrs.smp;
-      const submission = {};
-      sample
-        .onSend(submission)
-        .then(returns => {
-          expect(returns[0].fields[smpAttrs.app_version.id]).to.exist;
-          done();
-        })
-        .catch(done);
+      const subSample = getRandomSample();
+      sample.samples.push(subSample);
+
+      // When
+      const [submission] = sample.getSubmission();
+
+      // Then
+      expect(submission.survey_id).to.eql(submission.samples[0].survey_id);
+    });
+
+    it('should set subsamples missing location to parent survey location', () => {
+      // Given
+      const sample = getRandomSample();
+      const subSample = getRandomSample();
+      delete subSample.attrs.location;
+      sample.samples.push(subSample);
+
+      // When
+      const [submission] = sample.getSubmission();
+
+      // Then
+      const keys = sample.keys();
+      const locationKey = keys.location.id;
+
+      expect(submission.fields[locationKey]).to.eql(
+        submission.samples[0].fields[locationKey]
+      );
+    });
+  });
+
+  describe('getSurvey', () => {
+    it('should return default survey config', () => {
+      // Given
+      const sample = getRandomSample();
+
+      // When
+      const survey = sample.getSurvey();
+
+      // Then
+      console.log(defaultSurvey.occ);
+
+      expect(survey.name).to.be.equal('default');
+      expect(survey.taxonGroups.length).to.be.equal(0);
+      expect(survey.webForm).to.be.equal('enter-app-record');
+      expect(stringify(survey.attrs)).to.be.equal(
+        stringify(defaultSurvey.attrs)
+      );
+      expect(stringify(survey.occ)).to.be.equal(stringify(defaultSurvey.occ));
+      expect(survey.occ.attrs.microscopicallyChecked).to.be.equal(undefined);
     });
   });
 });

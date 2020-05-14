@@ -5,14 +5,22 @@ import { IonPage } from '@ionic/react';
 import Log from 'helpers/log';
 import alert from 'common/helpers/alert';
 import AppHeader from 'Components/Header';
+import { resetDefaults } from 'saved_samples';
 import Main from './Main';
 
 function showLogoutConfirmationDialog(callback) {
   alert({
     header: t('Logout'),
-    message: `${t('Are you sure you want to logout?')}<p><i>${t(
-      'This will delete all the records on this device.'
-    )}</i></p>`,
+    message: `${t('Are you sure you want to logout?')}`,
+    inputs: [
+      {
+        name: 'reset',
+        type: 'checkbox',
+        label: 'Discard local data',
+        value: 'reset',
+        checked: true,
+      },
+    ],
     buttons: [
       {
         text: t('Cancel'),
@@ -33,10 +41,11 @@ const Controller = observer(props => {
 
   function logOut() {
     Log('Info:Menu: logging out.');
-    showLogoutConfirmationDialog(() => {
-      appModel.set('recordDraftId', null).save();
+    showLogoutConfirmationDialog(async ([reset]) => {
       userModel.logOut();
-      return savedSamples.resetDefaults();
+      if (reset) {
+        await resetDefaults();
+      }
     });
   }
 
@@ -58,7 +67,7 @@ const Controller = observer(props => {
 Controller.propTypes = {
   userModel: PropTypes.object.isRequired,
   appModel: PropTypes.object.isRequired,
-  savedSamples: PropTypes.object.isRequired,
+  savedSamples: PropTypes.array.isRequired,
 };
 
 export default Controller;

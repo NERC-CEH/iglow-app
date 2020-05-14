@@ -2,20 +2,35 @@
  * App model. Persistent.
  **************************************************************************** */
 import Log from 'helpers/log';
-import { observable, set as setMobXAttrs } from 'mobx';
-import { getStore } from 'common/store';
+import { observable, set as setMobXAttrs, toJS } from 'mobx';
+import { store } from 'common/store';
+import attributeLockExtension from './app_model_attr_lock_ext';
+import pastLocationsExtension from './app_model_past_loc_ext';
 
 const getDefaultAttrs = () => ({
-  showedWelcome: false,
-  language: null,
-  country: null,
+  showWelcome: true,
+  language: 'EN',
+
+  locations: [],
+  attrLocks: { default: {}, complex: {} },
+  autosync: true,
+  useGridRef: true,
+  useGridMap: true,
   useTraining: false,
-  feedbackGiven: false,
-  recordDraftId: null,
-  speciesFilter: [],
 
   useExperiments: false,
+  useGridNotifications: false,
+  gridSquareUnit: 'monad',
+  speciesListSortedByTime: false,
+  geolocateSurveyEntries: true,
+
+  shownLongPressTip: false,
+  shownLockingTip: false,
+  feedbackGiven: false,
+  taxonGroupFilters: [],
+  searchNamesOnly: null,
   sendAnalytics: true,
+  appSession: 0,
 });
 
 class AppModel {
@@ -23,20 +38,23 @@ class AppModel {
 
   constructor() {
     Log('AppModel: initializing');
-    this._init = getStore()
-      .then(store => store.getItem('app'))
-      .then(appStr => {
-        const app = JSON.parse(appStr);
+    this._init = store
+      .find('app')
+      .then(app => {
+        if (typeof app === 'string') {
+          // backwards compatibility
+          app = JSON.parse(app); // eslint-disable-line
+        }
+
         if (!app) {
           Log('AppModel: persisting for the first time');
-          this._initDone = true;
           this.save();
           return;
         }
 
         setMobXAttrs(this.attrs, app.attrs);
-        this._initDone = true;
-      });
+      })
+      .then(() => this.attrLocksExtensionInit());
   }
 
   get(name) {
@@ -48,14 +66,8 @@ class AppModel {
     return this;
   }
 
-  save() {
-    if (!this._initDone) {
-      throw new Error(`App Model can't be saved before initialisation`);
-    }
-    const userStr = JSON.stringify({
-      attrs: this.attrs,
-    });
-    return getStore().then(store => store.setItem('app', userStr));
+  async save() {
+    return store.save('app', { attrs: toJS(this.attrs) });
   }
 
   resetDefaults() {
@@ -64,7 +76,7 @@ class AppModel {
   }
 
   toggleTaxonFilter(filter) {
-    const taxonGroupFilters = this.get('taxonGroupFilters');
+    const { taxonGroupFilters } = this.attrs;
     const index = taxonGroupFilters.indexOf(filter);
     if (index >= 0) {
       taxonGroupFilters.splice(index, 1);
@@ -75,6 +87,12 @@ class AppModel {
     this.save();
   }
 }
+
+// add previous/pased saved locations management
+AppModel.prototype = Object.assign(AppModel.prototype, pastLocationsExtension);
+
+// add sample/occurrence attribute management
+AppModel.prototype = Object.assign(AppModel.prototype, attributeLockExtension);
 
 const appModel = new AppModel();
 export { appModel as default, AppModel };

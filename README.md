@@ -1,3 +1,4 @@
+# iGlow App [![Build Status]
 
 An application that enables you to get involved in glow-worm insect
 recording. You can contribute your sightings with GPS acquired coordinates,

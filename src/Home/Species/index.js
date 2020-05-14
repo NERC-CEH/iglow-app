@@ -108,16 +108,19 @@ class Component extends React.Component {
 
   getSpecies = () => {
     const { appModel, onSpeciesClick } = this.props;
+    const country = appModel.get('country');
 
     const isRecordingMode = !!onSpeciesClick;
 
     const speciesFilter = appModel.get('speciesFilter');
+    const byCountry = sp => country === 'ELSEWHERE' || sp[country];
     const shouldFilter = speciesFilter.length && !isRecordingMode;
     const byEnabledFilters = sp =>
       shouldFilter ? speciesFilter.find(filter => sp[filter]) : true;
     const bySpeciesId = (sp1, sp2) => sp1.sort_id - sp2.sort_id;
 
     const filteredSpecies = [...species]
+      .filter(byCountry)
       .filter(byEnabledFilters)
       .sort(bySpeciesId);
 

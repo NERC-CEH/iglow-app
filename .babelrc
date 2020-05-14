@@ -19,5 +19,17 @@
     "@babel/plugin-transform-exponentiation-operator",
     ["@babel/plugin-proposal-class-properties", { "loose": true }],
     "@babel/plugin-syntax-dynamic-import"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        [
+          "istanbul",
+          {
+            "exclude": ["src/**/*tests*", "src/**/*_view*", "src/app.js", "dist", "test"]
+          }
+        ]
+      ]
+    }
+  }
 }

@@ -28,90 +28,16 @@ export default () => (
 
         <IonItem>
           <IonLabel>
-            <b>David Roy</b>
+            <b>John Day</b>
             {' '}
 (UK Centre for Ecology & Hydrology)
           </IonLabel>
         </IonItem>
         <IonItem>
           <IonLabel>
-            <b>Karolis Kazlauskis</b>
+            <b>Biren Rathod</b>
             {' '}
-(Flumens)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>John van Breda</b>
-            {' '}
-(Biodiverse IT)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Tom Humphrey</b>
-            {' '}
-(BSBI)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Martin Harvey</b>
-            {' '}
-(CEH)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Sally Rankin</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Colin Harrower</b>
-            {' '}
-(CEH)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Tom August</b>
-            {' '}
-(CEH)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Chris Raper</b>
-            {' '}
-(NHM)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Charles Roper</b>
-            {' '}
-(FSC)
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Matt Smith</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Alan Rowland</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>David Genney</b>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <b>Graham Checkley</b>
+(UK Centre for Ecology & Hydrology)
           </IonLabel>
         </IonItem>
       </IonList>
@@ -123,9 +49,6 @@ export default () => (
             {' '}
             <a href="https://www.ceh.ac.uk/">Centre for Ecology & Hydrology</a>
 /
-            <a href="http://jncc.defra.gov.uk/">
-              Joint Nature Conservation Committee
-            </a>
             {' '}
             {t('partnership supporting BRC')}
           </IonLabel>

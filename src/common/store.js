@@ -2,50 +2,6 @@ import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import LocalForage from 'localforage';
 import _ from 'lodash';
 
-/* eslint-disable */
-// DEVELOPMENT ONLY
-// async function printDiff(localForage, key, val) {
-//   const { diff } = require('deep-diff');
-
-//   const { storeName } = localForage._config;
-//   const currentVal = await localForage.getItem(key);
-//   const delta = diff(currentVal, val);
-//   if (!delta) {
-//     return;
-//   }
-//   console.groupCollapsed(`diff ${storeName} ${key}`);
-//   let allAggs = {};
-//   delta.forEach(difference => {
-//     const agg = {
-//       [storeName]: {
-//         [key]: {},
-//       },
-//     };
-
-//     if (!difference.path) {
-//       agg[storeName][key] = difference.rhs;
-//       console.log(JSON.stringify(agg, null, 2));
-//       return;
-//     }
-
-//     difference.path.reduce((a, aKey, i) => {
-//       if (difference.path.length - 1 > i) {
-//         a[aKey] = {};
-//         return a[aKey];
-//       }
-
-//       const leftStr = JSON.stringify(difference.lhs, null, 2);
-//       const rightStr = JSON.stringify(difference.rhs, null, 2);
-//       a[aKey] = `${leftStr} -> ${rightStr}`;
-//     }, agg[storeName][key]);
-//     allAggs = _.merge(allAggs, agg);
-//   });
-
-//   console.log(JSON.stringify(allAggs, null, 2));
-//   console.groupEnd();
-// }
-/* eslint-enable */
-
 class Store {
   constructor(options = {}) {
     // initialize db

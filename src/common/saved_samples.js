@@ -74,30 +74,4 @@ export function resetDefaults() {
   return Promise.all(destroyAllSamples);
 }
 
-// TODO:
-// function syncSamples() {
-//   if (Device.isOnline() && appModel.attrs.autosync && userModel.hasLogIn()) {
-//     // wait till savedSamples is fully initialized
-//     if (savedSamples.metadata.fetching) {
-//       observe(savedSamples.metadata, 'fetching', change => {
-//         if (change.oldValue !== change.newValue) {
-//           Log('Samples:router: syncing all samples.');
-//           savedSamples.forEach(sample => sample.save(null, { remote: true }));
-//         }
-//       });
-//       return;
-//     }
-//     Log('Samples:router: syncing all samples.');
-//     savedSamples.forEach(sample => sample.save(null, { remote: true }));
-//   }
-// }
-
-// function onLogin(change) {
-//   if (change.newValue === true) {
-//     syncSamples();
-//   }
-// }
-
-// observe(userModel.attrs, 'isLoggedIn', onLogin);
-
 export { savedSamples as default };

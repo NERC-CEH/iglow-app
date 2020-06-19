@@ -10,13 +10,19 @@ import pastLocationsExtension from './app_model_past_loc_ext';
 const getDefaultAttrs = () => ({
   showWelcome: true,
   language: 'EN',
+  country: null, 
+  useTraining: false,
+  feedbackGiven: false,
+  recordDraftId: null,
+  speciesFilter: [],
+
+  useExperiments: false,
 
   locations: [],
   attrLocks: { default: {}, complex: {} },
   autosync: true,
   useGridRef: true,
   useGridMap: true,
-  useTraining: false,
 
   useExperiments: false,
   useGridNotifications: false,
@@ -26,7 +32,6 @@ const getDefaultAttrs = () => ({
 
   shownLongPressTip: false,
   shownLockingTip: false,
-  feedbackGiven: false,
   taxonGroupFilters: [],
   searchNamesOnly: null,
   sendAnalytics: true,

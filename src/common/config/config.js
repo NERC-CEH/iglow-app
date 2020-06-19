@@ -6,33 +6,7 @@ import DateHelp from 'helpers/date';
 
 const HOST =
   process.env.APP_INDICIA_API_HOST || 'https://www.brc.ac.uk/irecord/';
-
-  const typeValues = [
-    { value: 'Alive', id: 17463 },
-    { value: 'Dead - roadkill', id: 17464 },
-    { value: 'Dead - other', id: 17465 },
-    {
-      value: 'Indirect',
-      type: 'radio',
-      values: [
-        { value: 'Print/trail', id: 17466 },
-        { value: 'Dropping', id: 17467 },
-        { value: 'Den/burrow', id: 17468 },
-        { value: 'Other (specify in Comment)', id: 17469 },
-      ],
-    },
-  ];
-  
-  function flattenForKeys(list) {
-    return list.reduce((agg, item) => {
-      if (item.values) {
-        return { ...agg, ...flattenForKeys(item.values) };
-      }
-  
-      return { ...agg, ...{ [item.value]: item.id } };
-    }, {});
-  }
-  
+   
   const CONFIG = {
     // variables replaced on build
     version: process.env.APP_VERSION,
@@ -53,8 +27,7 @@ const HOST =
     // error analytics
     sentry: {
       key: !__TEST__ && process.env.APP_SENTRY_KEY,
-      //project: '1723203',
-      project: '128357', //for irecord
+      project: '5220699', 
     },
     users: {
       url: `${HOST + Indicia.API_BASE + Indicia.API_VER}/users/`,
@@ -82,7 +55,7 @@ const HOST =
       host: HOST,
       api_key: process.env.APP_INDICIA_API_KEY,
       website_id: 23,
-      id: 571,
+      id: 580,
       webForm: 'enter-app-record',
       attrs: {
         smp: {
@@ -93,16 +66,6 @@ const HOST =
               ).toFixed(7)}`;
             },
           },
-          device: {
-            id: 922,
-            values: {
-              iOS: 2398,
-              Android: 2399,
-            },
-          },
-          device_version: { id: 759 },
-          app_version: { id: 1139 },
-  
           manual_location_accuracy: {
             id: 1446,
             values: {
@@ -114,7 +77,36 @@ const HOST =
               NA: 17455,
             },
           },
-  
+
+          location_accuracy: { id: 282 },
+          location_altitude: { id: 283 },
+          location_altitude_accuracy: { id: 284 },
+          location_source: { id: 760 },
+          location_gridref: { id: 335 },          
+
+          access:{
+            label:'Is location publicly?',
+            type: 'radio',
+            info: 'Is the location publicly accessible?',
+            id: 727,
+            values:{
+              Yes: 5790,
+              No: 5791,
+              Partly: 5793,
+              'Don\'t know': 5794,
+            },
+          },
+
+          device: {
+            id: 273,
+            values: {
+              iOS: 2398,
+              Android: 2399,
+            },
+          },
+          device_version: { id: 759 },
+          app_version: { id: 1139 },
+            
           date: {
             label: 'Date',
             values(date) {
@@ -124,99 +116,150 @@ const HOST =
             type: 'date',
             max: () => new Date(),
           },
+
+          time:{
+            label:'Time',
+            id: 34,
+          },
+
+          condition:{
+            label: 'Conditions',
+            type: 'radio',
+            info: 'Please specify the weather condition.',
+            id: 631,
+            values: {
+              Dry: 5281,
+              Raining: 5282,
+              'Wet ground': 5283,
+              Windy: 5284,
+            },
+          },
+
+          temp:{
+            label:'Temprature (Celcius):',
+            id:2,
+          },
+
+          type: {
+            label: 'Type of site',
+            type: 'checkbox',
+            info: 'Please specify the type.',
+            id: 624,
+            values: {
+              'Nature Reserve': 5219,
+              Garden: 5220,
+              Roadside: 5221,
+              'Railway used or dismantled': 5222,
+              Waterside: 5223,
+              'Sea cliff': 5224,
+              Quarry: 5225,
+              Grassland: 5226,
+              Woodland: 5227,
+              Other: 5789,
+            },
+          },
+
+          chemical: {
+            label: 'Aware of any chemicals?',
+            type: 'checkbox',
+            info: 'Are you aware of any chemicals used on the land?',
+            id: 627,
+            values: {
+              'Definitely not': 5242,
+              'Yes: weedkillers': 5243,
+              'Yes: insecticides': 5244,
+              'Yes: slug pellets': 5245,
+              'Don\'t know': 5246,
+            },
+          },
+
+          grazed: {
+            label: 'Is the area grazed?',
+            type: 'checkbox',
+            info: 'Please specify the grazed area.',
+            id: 626,
+            values: {
+              No: 5247,
+              Sheep: 5248,
+              Cattle: 5249,
+              Horses: 5250,
+              Rabbits: 5251,
+              Deer: 5252,
+              'Something else': 5253,
+            },
+          },
+
+          lights: {
+            label: 'Is there any lighting visible?',
+            type: 'checkbox',
+            info: 'Please specify the artificial lights.',
+            id: 628,
+            values: {
+              None: 5254,
+              'Distant lights: over 200m': 5255,
+              'Distant lights: 50-200m': 5257,
+              'Bright lights nearby': 5258,
+              'House lights': 5259,
+              'Lights from passing traffic': 5260,
+            },
+          },
         },
+        
         occ: {
           training: {
             id: 'training',
-          },
-  
+          }, 
           taxon: {
-            values(taxon) {
-              return taxon.warehouse_id;
+            values() {
+              return 125837; //Lampyris noctiluca
             },
           },
-  
-          number: {
-            label: 'Number',
-            id: 16,
+         
+          female: {
+            label: 'Females?',
+            id: 509,
           },
-  
-          'number-ranges': {
+
+          male: {
+            label: 'Males?',
+            id: 510,
+          },
+
+          larvae: {
+            label: 'Larvae?',
+            id: 511,
+          },
+
+          certainty: {
+            label: 'Certainty',
             type: 'radio',
-            id: 320,
+            info: 'Please specifiy the identification.',
+            id: 395,
             values: {
-              1: 3808,
-              '2-5': 3809,
-              '6-9': 38010,
-              '10-19': 3811,
-              '20-49': 3812,
-              '50+': 3813,
+              Certain: 859,
+              Likely: 860,
+              Uncertain: 861,
             },
           },
-  
-          type: {
-            label: 'Type',
-            type: 'radio',
-            info: 'Please specify the condition of the mammal.',
-            id: 800,
-            values: flattenForKeys(typeValues),
-            _values: typeValues,
-          },
-  
-          gender: {
-            label: 'Gender',
-            type: 'radio',
-            info: 'Please specify the gender of the mammal.',
-            id: 434,
+
+          position: {
+            label: 'Position of glow worms',
+            type: 'checkbox',
+            info: 'Please specify the position.',
+            id: 429,
             values: {
-              Male: 4343,
-              Female: 4344,
+              'Short grass': 5228,
+              'Long grass': 5229,
+              'Under tree': 5230,
+              'In hedge': 5231,
+              'On path': 5232,
+              'On gravel or stones': 5233,
+              Other: 5234,
             },
           },
-  
-          age: {
-            label: 'Age',
-            type: 'radio',
-            info: 'Please specify the age of the mammal.',
-            id: 824,
-            values: {
-              Piglet: 17687,
-              Juvenile: 17688,
-              Adult: 17689,
-            },
-          },
-  
-          decomposition: {
-            label: 'Decomposition',
-            type: 'radio',
-            info: 'Please specify the state of decomposition of the mammal.',
-            id: 825,
-            values: {
-              'Fresh carcass': 17690,
-              Decomposed: 17691,
-              'Dry (just bones left)': 17692,
-            },
-          },
-          
-          method: {
-            label: 'Method',
-            type: 'radio',
-            info: 'Please specify how has this mammal been observed.',
-            id: 799,
-            values: {
-              'Direct observation': 17456,
-              'Camera trap': 17457,
-              Catch: 17458,
-              Hunted: 17683,
-              'Road kill': 17459,
-              'Field carcass': 17460,
-              Telemetry: 17461,
-              'Other (specify in Comment)': 17462,
-            },
-          },
-  
+
           comment: {
-            label: 'Comment',
+            label: 'Anything else?',
             type: 'textarea',
           },
         },

@@ -10,10 +10,10 @@ import User from './User';
 import Info from './Info';
 import Settings from './Settings';
 import SplashScreenRequired from './Info/SplashScreenRequired';
-import Survey from './Survey';
 import '@ionic/core/css/core.css';
 import '@ionic/core/css/ionic.bundle.css';
 import 'common/theme.scss';
+import Survey from './Survey';
 
 const App = observer(() => (
   <IonApp>

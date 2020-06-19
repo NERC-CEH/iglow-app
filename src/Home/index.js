@@ -55,21 +55,21 @@ class Component extends React.Component {
         <IonTabs>
           <IonRouterOutlet>
             <Route
-              path="/home/surveys"
-              render={props => (
-                <SurveysList
-                  appModel={appModel} savedSamples={savedSamples}
-                  {...props}
-                />
-              )}
-              exact
-            />
-            <Route
               path="/home/species"
               render={props => (
                 <Species
                 appModel={appModel} savedSamples={savedSamples} 
                 {...props}
+                />
+              )}
+              exact
+            />
+            <Route
+              path="/home/surveys"
+              render={props => (
+                <SurveysList
+                  appModel={appModel} savedSamples={savedSamples}
+                  {...props}
                 />
               )}
               exact
@@ -89,14 +89,14 @@ class Component extends React.Component {
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">
+            <IonTabButton tab="home/species" href="/home/species">
+              <IonIcon icon={person} />
+              <IonLabel>{t('Home')}</IonLabel>
+            </IonTabButton>
+
             <IonTabButton tab="home/surveys" href="/home/surveys">
               <IonIcon icon={home} />
               <IonLabel>{t('Records')}</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="home/species" href="/home/species">
-              <IonIcon icon={person} />
-              <IonLabel>{t('Species')}</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="record" class="add-record" href="/survey/default/new">

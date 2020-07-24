@@ -5,8 +5,5 @@ import React from 'react';
 import { IonSpinner } from '@ionic/react';
 import './styles.scss';
 
-export default () => (
-  <div className="spinner">
-    <IonSpinner class="centered" />
-  </div>
-);
+// on Android the spinner is distorted, so requires manual OS check
+export default () => <IonSpinner class="centered" />;

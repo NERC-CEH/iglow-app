@@ -13,7 +13,7 @@ const getOptions = q => ({
     sortdir: 'ASC',
     auth_token: null,
     nonce: null,
-    taxon_list_id: '258',
+    taxon_list_id: '15',
     synonyms: 'false',
   },
 });

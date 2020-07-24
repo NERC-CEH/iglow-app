@@ -18,6 +18,7 @@ class Component extends React.Component {
   };
 
   componentDidMount() {
+    this.input.current.focus();
     if (window.cordova && Device.isAndroid()) {
       window.Keyboard.show();
       this.input.current.onfocusout = () => {
@@ -34,17 +35,16 @@ class Component extends React.Component {
       <>
         {message && (
           <div className="info-message">
-            <p>{t(message)}</p>
+            <p>{message}</p>
           </div>
         )}
         <IonTextarea
-          placeholder={t('Enter more information here...')}
+          placeholder={'Enter more information here...'}
           value={this.state.value}
           onIonChange={e => this.onChange(e.target.value)}
           debounce={200}
           rows={8}
-          autofocus
-          autocapitalize
+          autoFocus
           ref={this.input}
         />
       </>

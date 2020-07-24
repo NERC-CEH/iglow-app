@@ -5,17 +5,17 @@ import AppHeader from 'Components/Header';
 import './styles.scss';
 
 function getFinishButton(onSubmit) {
-  return <IonButton onClick={onSubmit}>{t('Finish')}</IonButton>;
+  return <IonButton onClick={onSubmit}>Finish</IonButton>;
 }
 
 const Header = ({ onSubmit, isTraining }) => {
   const trainingModeSubheader = isTraining && (
-    <div className="training-record">{t('Training Mode')}</div>
+    <div className="training-record">Training Mode</div>
   );
 
   return (
     <AppHeader
-      title={t('Record')}
+      title="Record"
       rightSlot={getFinishButton(onSubmit)}
       subheader={trainingModeSubheader}
     />

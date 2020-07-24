@@ -17,29 +17,8 @@ module.exports = {
   },
   extends: ['airbnb', 'prettier'],
   rules: {
-    // rules to fix - delete the line
-    'no-unused-vars': WARN,
-    'prefer-destructuring': WARN,
-    'no-use-before-define': WARN,
-    'no-param-reassign': WARN,
-    'import/extensions': WARN,
-    'react/no-array-index-key': WARN,
-    'react/no-access-state-in-setstate': WARN,
-    'import/no-unresolved': WARN,
-    'no-plusplus': WARN,
-    'react/forbid-prop-types': WARN,
-    'jsx-a11y/anchor-is-valid': WARN,
-    'jsx-a11y/click-events-have-key-events': WARN,
-    'jsx-a11y/no-static-element-interactions': WARN,
-    'jsx-a11y/no-noninteractive-element-interactions': WARN,
-    'jsx-a11y/no-autofocus': WARN,
-    'jsx-a11y/alt-text': WARN,
-    'import/no-mutable-exports': WARN,
-    'no-case-declarations': WARN,
-    'jsx-a11y/anchor-has-content': WARN,
-    'react/no-this-in-sfc': WARN,
-
     // our specific rules
+    'arrow-parens': [ERROR, "as-needed"],
     'react/forbid-prop-types': OFF,
     'jsx-a11y/no-autofocus': OFF,
     'no-plusplus': OFF,
@@ -71,7 +50,7 @@ module.exports = {
     'react/jsx-props-no-spreading': OFF,
     'react/state-in-constructor': OFF,
     'react/static-property-placement': OFF,
-    'react/jsx-one-expression-per-line': [WARN, { allow: 'single-child' }],
+    'react/jsx-one-expression-per-line': OFF,
   },
   overrides: [
     {

@@ -5,30 +5,22 @@ import { IonPage } from '@ionic/react';
 import Log from 'helpers/log';
 import alert from 'common/helpers/alert';
 import AppHeader from 'Components/Header';
-import { resetDefaults } from 'saved_samples';
 import Main from './Main';
 
 function showLogoutConfirmationDialog(callback) {
   alert({
-    header: t('Logout'),
-    message: `${t('Are you sure you want to logout?')}`,
-    inputs: [
-      {
-        name: 'reset',
-        type: 'checkbox',
-        label: 'Discard local data',
-        value: 'reset',
-        checked: true,
-      },
-    ],
+    header: 'Logout',
+    message: `${'Are you sure you want to logout?'}<p><i>${
+      'This will delete all the records on this device.'
+    }</i></p>`,
     buttons: [
       {
-        text: t('Cancel'),
+        text: 'Cancel',
         role: 'cancel',
         cssClass: 'secondary',
       },
       {
-        text: t('Logout'),
+        text: 'Logout',
         cssClass: 'primary',
         handler: callback,
       },
@@ -41,18 +33,17 @@ const Controller = observer(props => {
 
   function logOut() {
     Log('Info:Menu: logging out.');
-    showLogoutConfirmationDialog(async ([reset]) => {
+    showLogoutConfirmationDialog(() => {
+      appModel.set('recordDraftId', null).save();
       userModel.logOut();
-      if (reset) {
-        await resetDefaults();
-      }
+      return savedSamples.resetDefaults();
     });
   }
 
   const isLoggedIn = userModel.hasLogIn();
   return (
     <IonPage>
-      <AppHeader title={t('Menu')} />
+      <AppHeader title='Menu' />
       <Main
         user={userModel.attrs}
         appModel={appModel}
@@ -67,7 +58,7 @@ const Controller = observer(props => {
 Controller.propTypes = {
   userModel: PropTypes.object.isRequired,
   appModel: PropTypes.object.isRequired,
-  savedSamples: PropTypes.array.isRequired,
+  savedSamples: PropTypes.object.isRequired,
 };
 
 export default Controller;

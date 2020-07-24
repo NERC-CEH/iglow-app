@@ -16,21 +16,19 @@ import './styles.scss';
 
 function photoDelete(photo) {
   alert({
-    header: t('Delete'),
-    message: `${t(
-      `Are you sure you want to remove this photo from the record?`
-    )}
+    header: 'Delete',
+    message: `${`Are you sure you want to remove this photo from the record?`}
        </br></br> 
-       ${t('Note: it will remain in the gallery.')}
-       `,
+       ${'Note: it will remain in the gallery.'}`
+       ,
     buttons: [
       {
-        text: t('Cancel'),
+        text: 'Cancel',
         role: 'cancel',
         cssClass: 'primary',
       },
       {
-        text: t('Delete'),
+        text: 'Delete',
         cssClass: 'secondary',
         handler: () => {
           // show loader
@@ -84,10 +82,10 @@ class Footer extends Component {
     const occurrence = this.props.sample.getOccurrence();
 
     actionSheet({
-      header: t('Choose a method to upload a photo'),
+      header: 'Choose a method to upload a photo',
       buttons: [
         {
-          text: t('Gallery'),
+          text: 'Gallery',
           icon: 'images',
           handler: () => {
             ImageHelp.getImage({
@@ -106,7 +104,7 @@ class Footer extends Component {
           },
         },
         {
-          text: t('Camera'),
+          text: 'Camera',
           icon: 'camera',
           handler: () => {
             ImageHelp.getImage()
@@ -159,7 +157,7 @@ class Footer extends Component {
     const { sample } = this.props;
     const { models } = sample.getOccurrence().media;
     if (!models || !models.length) {
-      return <span className="empty"> {t('No photo has been added')}</span>;
+      return <span className="empty">No photo has been added</span>;
     }
 
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */

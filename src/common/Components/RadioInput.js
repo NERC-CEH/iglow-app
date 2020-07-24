@@ -40,7 +40,7 @@ class Component extends React.PureComponent {
           }
           const input = (
             <IonItem key={option.label || option.value}>
-              <IonLabel>{t(option.label || option.value)}</IonLabel>
+              <IonLabel>{option.label || option.value}</IonLabel>
               <IonRadio
                 value={option.value}
                 checked={option.value === selected}
@@ -58,7 +58,7 @@ class Component extends React.PureComponent {
         <div>
           {message && (
             <div className="info-message">
-              <p>{t(message)}</p>
+              <p>{message}</p>
             </div>
           )}
 
@@ -81,7 +81,7 @@ class Component extends React.PureComponent {
 
     const inputs = selection.map(option => (
       <IonItem key={option.label || option.value}>
-        <IonLabel>{t(option.label || option.value)}</IonLabel>
+        <IonLabel>{option.label || option.value}</IonLabel>
         <IonRadio
           value={option.value}
           checked={option.value === selected}
@@ -94,7 +94,7 @@ class Component extends React.PureComponent {
       <div>
         {message && (
           <div className="info-message">
-            <p>{t(message)}</p>
+            <p>{message}</p>
           </div>
         )}
 

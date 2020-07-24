@@ -23,20 +23,20 @@ class Component extends React.Component {
     const storeName = Device.isIOS() ? 'App Store' : 'Play Store';
     this.steps = {
       initial: {
-        question: t('Enjoying the app?'),
-        negativeOption: t('Not really'),
-        positiveOption: t('Yes!'),
+        question: 'Enjoying the app?',
+        negativeOption: 'Not really',
+        positiveOption: 'Yes!',
       },
       negativeFeedback: {
-        question: t('Would you mind giving us some feedback?'),
-        negativeOption: t('No, thanks'),
-        positiveOption: t('OK, sure'),
-        link: `mailto:imammalia%40ceh.ac.uk?subject=iMammalia%20App&body=%0A%0A%0AVersion%3A%20${CONFIG.version}%0ABrowser%3A ${window.navigator.appVersion}%0A`,
+        question: 'Would you mind giving us some feedback?',
+        negativeOption: 'No, thanks',
+        positiveOption: 'OK, sure',
+        link: `mailto:john%40ceh.ac.uk?subject=glowworm%20App&body=%0A%0A%0AVersion%3A%20${CONFIG.version}%0ABrowser%3A ${window.navigator.appVersion}%0A`,
       },
       positiveFeedback: {
-        question: t(`How about a rating on the ${storeName} then?`),
-        negativeOption: t('No, thanks'),
-        positiveOption: t('OK, sure'),
+        question: `How about a rating on the ${storeName} then?`,
+        negativeOption: 'No, thanks',
+        positiveOption: 'OK, sure',
       },
     };
   }

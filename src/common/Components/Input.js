@@ -1,28 +1,21 @@
 /**
  * Input view.
  */
-import { IonItem, IonLabel, IonDatetime, IonInput } from '@ionic/react';
+import { IonInput, IonItem, IonLabel, IonDatetime, IonSelect, IonSelectOption } from '@ionic/react';
 import DateHelp from 'helpers/date';
 import Device from 'helpers/device';
 import StringHelp from 'helpers/string';
 import PropTypes from 'prop-types';
 import React from 'react';
-import AutoSuggestInput from './AutoSuggestInput';
 
 class Component extends React.Component {
   constructor(props) {
     super(props);
     this.input = React.createRef();
-    this.state = {
-      value: props.default || props.config.default,
-    };
+    this.state = { value: props.default || props.config.default };
 
-    if (props.type === 'date' && this.state.value) {
+    if (props.type === 'date') {
       this.state.value = DateHelp.toDateInputValue(this.state.value);
-    }
-
-    if (props.type === 'time' && this.state.value) {
-      this.state.value = new Date(this.state.value).toISOString();
     }
   }
 
@@ -41,16 +34,11 @@ class Component extends React.Component {
       return null;
     }
 
-    if (this.props.type === 'date') {
+    if (this.type === 'date') {
       const date = new Date(value);
       if (DateHelp.validate(date)) {
         return date;
       }
-    }
-
-    if (this.props.type === 'time') {
-      const time = new Date(value);
-      return time;
     }
 
     return StringHelp.escape(value);
@@ -64,7 +52,7 @@ class Component extends React.Component {
       }
     }
 
-    if (this.props.type === 'date') {
+    if (this.type === 'date') {
       return DateHelp.validate(new Date(value));
     }
 
@@ -74,12 +62,12 @@ class Component extends React.Component {
   componentDidMount() {
     const config = this.props.config || {};
     const type = this.props.type || config.type;
-    if (type === 'date') {
-      this.input.current.open();
+    if (type === 'date' || type === 'time') {
+      this.input.current.open();      
       return;
     }
 
-    !config.lookup && this.input.current.focus();
+    this.input.current.focus();
     if (window.cordova && Device.isAndroid()) {
       window.Keyboard.show();
       this.input.current.onfocusout = () => {
@@ -92,25 +80,14 @@ class Component extends React.Component {
     const config = this.props.config || {};
     const type = this.props.type || config.type || 'text';
 
-    if (config.lookup) {
-      const { onChange, ...props } = this.props;
-      const onSuggestionSelected = onChange;
-      return (
-        <AutoSuggestInput
-          onSuggestionSelected={onSuggestionSelected}
-          {...props}
-        />
-      );
-    }
-
     if (type === 'date') {
       return (
         <IonItem>
           <IonLabel>DD/MM/YYYY</IonLabel>
           <IonDatetime
             ref={this.input}
-            cancelText={t('Cancel')}
-            doneText={t('OK')}
+            cancelText='Cancel'
+            doneText='OK'
             displayFormat="DD/MM/YYYY"
             value={DateHelp.toDateInputValue(this.state.value)}
             onIonChange={val => {
@@ -123,24 +100,38 @@ class Component extends React.Component {
     }
 
     if (type === 'time') {
-      return (
+      return(
         <IonItem>
-          <IonLabel>{t(config.format)}</IonLabel>
-          <IonDatetime
+          <IonLabel>hh:mm</IonLabel>
+          <IonDatetime 
             ref={this.input}
-            cancelText={t('Cancel')}
-            doneText={t('OK')}
-            displayFormat={config.format}
-            value={this.state.value}
+            cacelText='Cancel'
+            doneText='OK'
+            displayFormat="h:mm A"
+            pickerFormat="h:mm A"
+            value={this.state.value} 
             onIonChange={val => {
-              this.onChange({ target: { value: val.detail.value } });
+              const timeStr = val.detail.value.split('T')[1] ? val.detail.value.split('T')[1] : val.detail.value.split('T')[0];
+              this.onChange({ target: { value: timeStr.slice(0, 5) } });
             }}
           />
         </IonItem>
       );
     }
 
-    const min = this.props.min || config.min;
+    if (type === 'number') {
+      return(
+        <IonItem>
+          <IonInput 
+          ref={this.input}
+          type={type}
+          value={this.state.value} 
+          onIonChange={this.onChange}
+        />
+        </IonItem>
+      );
+    }
+
     let max = this.props.max || config.max;
     if (typeof max === 'function') {
       max = max();
@@ -149,27 +140,26 @@ class Component extends React.Component {
       }
     }
     const message = this.props.info || config.info;
-    const placeholder = this.props.placeholder || config.placeholder;
+
+    const className = this.props.typeahead ? 'typeahead' : '';
 
     return (
       <div>
         {message && (
           <div className="info-message">
-            <p>{t(message)}</p>
+            <p>{message}</p>
           </div>
         )}
-        <IonInput
-          ref={this.input}
-          onIonChange={this.onChange}
-          type={type}
-          inputmode={type}
-          max={max}
-          min={min}
-          value={this.state.value}
-          debounce={200}
-          placeholder={placeholder}
-          autofocus
-        />
+        <div className="input-group">
+          <input
+            ref={this.input}
+            onChange={this.onChange}
+            type={type}
+            className={className}
+            max={max}
+            value={this.state.value}
+          />
+        </div>
       </div>
     );
   }
@@ -179,11 +169,10 @@ Component.propTypes = {
   default: PropTypes.any,
   config: PropTypes.any.isRequired,
   info: PropTypes.string,
-  placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   validate: PropTypes.func,
   max: PropTypes.any,
-  min: PropTypes.any,
+  typeahead: PropTypes.func,
   type: PropTypes.string.isRequired,
 };
 

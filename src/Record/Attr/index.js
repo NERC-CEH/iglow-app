@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { IonContent, IonPage, NavContext } from '@ionic/react';
 import AppHeader from 'Components/Header';
 import RadioInput from 'Components/RadioInput';
+import CheckboxInput from 'Components/CheckboxInput';
 import Input from 'Components/Input';
 import Textarea from 'Components/Textarea';
 import { observer } from 'mobx-react';
 import config from 'config';
-import NumberAttr from './components/NumberAttr';
 
 @observer
 class Component extends React.Component {
@@ -28,15 +28,42 @@ class Component extends React.Component {
     this.sample = sample;
     this.occ = sample.occurrences.at(0);
 
-    this.model = this.attrName === 'date' ? this.sample : this.occ;
+       switch (this.attrName) {
+          case 'date':
+            this.model = this.sample;
+            this.attrConfig = config.indicia.attrs.smp.date;
+            break;
+          case 'female':
+            this.model = this.occ;
+            this.attrConfig = config.indicia.attrs.occ[this.attrName];
+            break;
+          case 'male':
+            this.model = this.occ;
+            this.attrConfig = config.indicia.attrs.occ[this.attrName];
+            break;
+          case 'larvae':
+            this.model = this.occ;
+            this.attrConfig = config.indicia.attrs.occ[this.attrName];
+            break;
+          case 'certainty':
+            this.model = this.occ;
+            this.attrConfig = config.indicia.attrs.occ[this.attrName];
+            break;
+          case 'position':
+            this.model = this.occ;
+            this.attrConfig = config.indicia.attrs.occ[this.attrName];
+            break;
+          case 'comment':
+            this.model = this.occ;
+            this.attrConfig = config.indicia.attrs.occ[this.attrName];
+            break;
+          default:
+            this.model = this.sample;
+            this.attrConfig = config.indicia.attrs.smp[this.attrName];
+       }
 
-    const value = this.model.get(this.attrName);
-    this.state = { currentVal: value };
-
-    this.attrConfig =
-      this.attrName === 'date'
-        ? config.indicia.attrs.smp.date
-        : config.indicia.attrs.occ[this.attrName];
+       const value = this.model.get(this.attrName);
+       this.state = { currentVal: value };    
   }
 
   onChange = val => {
@@ -44,22 +71,23 @@ class Component extends React.Component {
     this.model.set(this.attrName, val);
     this.model.save();
 
-    if (this.attrConfig.type === 'radio') {
-      this.context.goBack();
-    }
+      if (this.attrConfig.type === 'radio')  {
+        this.context.goBack();
+      }
+    //}
   };
 
   onNumberChange = (val, radioWasClicked) => {
     if (!radioWasClicked) {
       this.setState({ currentVal: val[1] });
       this.model.set('number', val[1]);
-      this.model.set('number-ranges', null);
+      //this.model.set('number-ranges', null);
       this.model.save();
       return;
     }
 
     this.setState({ currentVal: val[0] });
-    this.model.set('number-ranges', val[0]);
+    //this.model.set('number-ranges', val[0]);
     this.model.set('number', null);
     this.model.save();
 
@@ -67,18 +95,25 @@ class Component extends React.Component {
   };
 
   getAttr = () => {
-    if (this.attrName === 'number') {
-      return (
-        <NumberAttr
-          config={config.indicia.attrs.occ['number-ranges']}
-          rangesValue={this.occ.get('number-ranges')}
-          sliderValue={this.state.currentVal}
-          onChange={this.onNumberChange}
-        />
-      );
-    }
-
     switch (this.attrConfig.type) {
+      case 'time':
+        return (
+          <Input
+            type="time"
+            config={this.attrConfig}
+            default={this.state.currentVal}
+            onChange={val => this.onChange(val)}
+          />
+        );
+      case 'number':
+        return (
+          <Input
+          type="number"
+          config={this.attrConfig}
+          default={this.state.currentVal}
+          onChange={val => this.onChange(val)}
+        />
+        );
       case 'date':
         return (
           <Input
@@ -92,7 +127,7 @@ class Component extends React.Component {
         return (
           <Textarea
             config={this.attrConfig}
-            info={t('Please add any extra info about this record.')}
+            info='Please add any extra info about this record.'
             default={this.state.currentVal}
             onChange={val => this.onChange(val)}
           />
@@ -107,6 +142,15 @@ class Component extends React.Component {
           />
         );
 
+      case 'checkbox':
+        return (
+          <CheckboxInput
+            config={this.attrConfig}
+            default={this.state.currentVal}
+            onChange={val => this.onChange(val)}
+          />
+        );
+  
       default:
         // TODO: show 404
         return null;
@@ -116,7 +160,7 @@ class Component extends React.Component {
   render() {
     return (
       <IonPage>
-        <AppHeader title={t(this.attrConfig.label)} />
+        <AppHeader title={this.attrConfig.label} />
         <IonContent id="record-edit-attr">{this.getAttr()}</IonContent>
       </IonPage>
     );

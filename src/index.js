@@ -11,7 +11,7 @@ import savedSamples from 'saved_samples';
 import Analytics from 'helpers/analytics';
 import App from './App';
 
-// START Android back button disable
+// START Android back button disable 
 function disableBackButton() {
   document.addEventListener(
     'backbutton',
@@ -25,7 +25,7 @@ function disableBackButton() {
 setupConfig({
   hardwareBackButton: false,
 });
-// END Android back button disable
+// END Android back button disable 
 
 async function init() {
   await appModel._init;
@@ -46,9 +46,6 @@ async function init() {
 
     disableBackButton();
   }
-
-  appModel.attrs.appSession += 1;
-  appModel.save()
 
   ReactDOM.render(<App />, document.getElementById('root'));
 }

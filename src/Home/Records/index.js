@@ -25,7 +25,7 @@ function getPendingRecords(records) {
     return (
       <IonList lines="full">
         <IonItem className="empty">
-          <span>{t('No finished pending records')}</span>
+          <span>No finished pending records</span>
         </IonItem>
       </IonList>
     );
@@ -45,7 +45,7 @@ function getUploadedRecords(records) {
     return (
       <IonList lines="full">
         <IonItem className="empty">
-          <span>{t('No uploaded records')}</span>
+          <span>No uploaded records</span>
         </IonItem>
       </IonList>
     );
@@ -97,7 +97,7 @@ class Component extends React.Component {
           <IonSegment onIonChange={this.onSegmentClick} value={segment}>
             <IonSegmentButton value="pending" checked={showingPending}>
               <IonLabel>
-                {t('Pending')}
+                Pending
                 {pendingRecords.length ? (
                   <IonBadge color="danger" slot="end">
                     {pendingRecords.length}
@@ -107,7 +107,7 @@ class Component extends React.Component {
             </IonSegmentButton>
             <IonSegmentButton value="uploaded" checked={showingUploaded}>
               <IonLabel>
-                {t('Uploaded')}
+                Uploaded
                 {uploadedRecords.length ? (
                   <IonBadge color="light" slot="end">
                     {uploadedRecords.length}

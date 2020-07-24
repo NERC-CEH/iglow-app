@@ -1,98 +1,78 @@
-import Indicia from '@indicia-js/core';
-import _ from 'lodash';
-import { observable, observe, toJS } from 'mobx';
-import Media from './image';
+import Indicia from 'indicia';
+import * as Yup from 'yup';
+import { observable, toJS } from 'mobx';
+import CONFIG from 'config';
+import ImageModel from './image';
 
-export default class Occurrence extends Indicia.Occurrence {
-  constructor(...args) {
-    super(...args);
+const schema = Yup.object().shape({
+  taxon: Yup.mixed().test('species', 'Please select a species.', val => {
+    try {
+      Yup.object()
+        .shape({
+          english: Yup.string().required(),
+          id: Yup.number().required(),
+          taxon: Yup.string().required(),
+          warehouse_id: Yup.number().required(),
+        })
+        .validateSync(val);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }),
+});
 
-    this.attrs = observable(this.attrs);
+export default Indicia.Occurrence.extend({
+  Media: ImageModel,
+
+  initialize() {
+    this.attributes = observable(this.attributes);
     this.metadata = observable(this.metadata);
-    this.media = observable(this.media);
+    this.media.models = observable(this.media.models);
+  },
 
-    const onAddedSetParent = change => {
-      if (change.addedCount) {
-        const model = change.added[0];
-        model.parent = this;
-      }
+  defaults() {
+    return {
+      comment: null,
+      method: null,
+      type: null,
+      number: null,
+      age: null,
+      decomposition: null,
+      gender: null,
+      'number-ranges': null,
+      taxon: {
+        scientific_name: null,
+        warehouse_id: null,
+      },
     };
+  },
 
-    observe(this.media, onAddedSetParent);
-  }
+  keys: CONFIG.indicia.attrs.occ, // warehouse attribute keys
 
-  static fromJSON(json) {
-    return super.fromJSON(json, Media);
-  }
-
-  async save() {
-    if (!this.parent) {
-      return Promise.reject(
-        new Error('Trying to save locally without a parent')
-      );
-    }
-
-    return this.parent.save();
-  }
-
-  async destroy(silent) {
-    if (!this.parent) {
-      return Promise.reject(
-        new Error('Trying to destroy locally without a parent')
-      );
-    }
-
-    this.parent.occurrences.remove(this);
-    await Promise.all(this.media.map(media => media.destroy(true)));
-
-    if (silent) {
-      return null;
-    }
-
-    return this.parent.save();
-  }
-
-  toJSON() {
-    return toJS(super.toJSON(), { recurseEverything: true });
-  }
-
-  // warehouse attribute keys
-  keys = () => {
-    if (!this.parent) {
-      throw new Error('No parent exists to get keys');
-    }
-
-    return { ...Indicia.Occurrence.keys, ...this.parent.getSurvey().occ.attrs };
-  };
-
-  getSurvey() {
-    if (!this.parent) {
-      throw new Error('No parent exists to get survey');
-    }
-
-    const survey = this.parent.getSurvey();
-    return survey.occ;
-  }
+  /**
+   * Disable sort for mobx to keep the same refs.
+   * @param mediaObj
+   */
+  addMedia(mediaObj) {
+    if (!mediaObj) return;
+    mediaObj.setParent(this);
+    this.media.add(mediaObj, { sort: false });
+  },
 
   validateRemote() {
-    const survey = this.getSurvey();
-    const invalidAttributes = survey.verify && survey.verify(this.attrs);
-    const attributes = { ...invalidAttributes };
-
-    const validateSubModel = (agg, model) => {
-      const invalids = model.validateRemote();
-      if (invalids) {
-        agg[model.cid] = invalids;
-      }
-      return agg;
-    };
-
-    const media = this.media.reduce(validateSubModel, {});
-
-    if (!_.isEmpty(attributes) || !_.isEmpty(media)) {
-      return { attributes, media };
+    try {
+      schema.validateSync(this.attributes);
+    } catch (e) {
+      return e;
     }
-
     return null;
-  }
-}
+  },
+
+  toJSON() {
+    const json = Indicia.Occurrence.prototype.toJSON.apply(this);
+    json.attributes = toJS(json.attributes);
+    json.metadata = toJS(json.metadata);
+    return json;
+  },
+});

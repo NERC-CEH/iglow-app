@@ -22,20 +22,18 @@ async function createNewSample(savedSamples) {
 async function showDraftAlert() {
   return new Promise(resolve => {
     alert({
-      header: t('Draft'),
-      message: `${t(
-        'Previous record draft exists, would you like to continue it?'
-      )}`,
+      header: 'Draft',
+      message: 'Previous record draft exists, would you like to continue it?',
       backdropDismiss: false,
       buttons: [
         {
-          text: t('Discard'),
+          text: 'Discard',
           handler: () => {
             resolve(false);
           },
         },
         {
-          text: t('Continue'),
+          text: 'Continue',
           cssClass: 'primary',
           handler: () => {
             resolve(true);
@@ -52,7 +50,7 @@ function showValidationAlert(errors) {
     ''
   );
   alert({
-    header: t('Record incomplete'),
+    header: 'Record incomplete',
     message: `${errorsPretty}`,
   });
 }

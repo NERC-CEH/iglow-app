@@ -28,7 +28,7 @@ class Component extends React.Component {
     return (
       <div>
         <div className="info-message">
-          <p>{t('How many individuals of this type?')}</p>
+          <p>How many individuals of this type?</p>
         </div>
         <SliderInput
           config={this.props.config}

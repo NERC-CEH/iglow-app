@@ -26,7 +26,7 @@ const habitats = [
   'farmlands',
 ];
 
-const MAMMALNET_SPECIES_BASE_URL = 'https://mammalnet.com/species';
+const SPECIES_BASE_URL = 'https://www.firefliesandglow-worms.co.uk/species';
 
 class Component extends React.Component {
   static contextType = IonLifeCycleContext;
@@ -60,44 +60,44 @@ class Component extends React.Component {
   render() {
     const { species } = this.props;
 
-    const { mammalnet_website_path: webPath } = species;
+    //const { mammalnet_website_path: webPath } = species;
 
-    const url = `${MAMMALNET_SPECIES_BASE_URL}/${webPath}`;
+    const url = `${SPECIES_BASE_URL}`;
 
     const habitatsString = habitats
       .filter(habitat => species[habitat])
-      .map(habitat => t(habitat))
+      .map(habitat => habitat)
       .join(', ');
 
     return (
       <IonContent id="species-profile" class="ion-padding">
-        <img src={`/images/${species.id}.jpg`} alt="species" />
+        <img src={`/images/lampyris-noctiluca.jpg`} alt="species" />
 
         <IonCardHeader>
-          <IonCardTitle>{t(species.english)}</IonCardTitle>
+          <IonCardTitle>{species.english}</IonCardTitle>
           <IonCardSubtitle>{species.taxon}</IonCardSubtitle>
         </IonCardHeader>
 
         <IonCardContent>
-          <h3 className="species-label">{`${t('Description')}:`}</h3>
-          {t(species.description)}
+          <h3 className="species-label">Description:</h3>
+          {species.description}
         </IonCardContent>
 
         {habitatsString && (
           <IonCardContent className="species-habitats">
-            <h3 className="species-label">{`${t('Habitats')}:`}</h3>
+            <h3 className="species-label">Habitats:</h3>
             {habitatsString}
           </IonCardContent>
         )}
 
         <IonCardContent className="external-link">
           <h3 className="species-label">
-            {`${t('Mammalnet')}:`} <a href={url}>{t('web profile')}</a>
+            Glow-worm <a href={url}>Website</a>
           </h3>
         </IonCardContent>
 
         <IonCardContent>
-          <h3 className="species-label">{`${t('Distribution')}:`}</h3>
+          <h3 className="species-label">Distribution:</h3>
           <div style={{ display: 'none' }}>
             <MapBackground id="boundary" />
             <ReactSVG src={`/images/${species.taxon}.svg`} />

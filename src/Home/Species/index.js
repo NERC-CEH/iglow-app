@@ -16,8 +16,6 @@ import {
   IonCol,
 } from '@ionic/react';
 import ModalHeader from 'Components/ModalHeader';
-import { funnel } from 'ionicons/icons';
-import alert from 'common/helpers/alert';
 import species from 'common/data/species.data.json';
 import SpeciesProfile from './components/SpeciesProfile';
 import UserFeedbackRequest from './components/UserFeedbackRequest';
@@ -46,7 +44,6 @@ class Component extends React.Component {
 
   getSpecies = () => {
     const { appModel, onSpeciesClick } = this.props;
-
     const isRecordingMode = !!onSpeciesClick;
 
     const speciesFilter = appModel.get('speciesFilter');
@@ -60,7 +57,7 @@ class Component extends React.Component {
       .sort(bySpeciesId);
 
     return isRecordingMode
-      ? [...filteredSpecies, ...speciesGroups]
+      ? [...filteredSpecies, ...speciesGroupsToShow]
       : filteredSpecies;
   };
 
@@ -80,29 +77,36 @@ class Component extends React.Component {
         ? `url('/images/${taxon.toLowerCase()}_thumbnail.png')`
         : `url('/images/lampyris-noctiluca.jpg'`;
 
+      if (!id) {
+        console.log(sp);
+      }
+
       return (
-        <IonRow
+        <IonRow 
           key={id}
           className="species-list-item"
           onClick={onClick}
-          size="6"
+          size="auto"
           size-lg
-          class="ion-no-padding ion-no-margin">
+          class="ion-no-padding ion-no-margin"
+        >
           <div
             style={{
               backgroundImage,
             }}
           >
-            <span className="label">{t(english)}</span>
+            <span className="label">{english}</span>
           </div>
-          </IonRow>
+        </IonRow>
       );
     };
 
     const speciesColumns = speciesList.map(getSpeciesElement);
 
     return (
-      <IonGrid class="ion-no-padding ion-no-margin">{speciesColumns}</IonGrid>
+      <IonGrid class="ion-no-padding ion-no-margin">
+        {speciesColumns}
+      </IonGrid>
     );
   }
 
@@ -124,7 +128,7 @@ class Component extends React.Component {
         {this.getSpeciesGrid()}
 
         <IonModal isOpen={this.state.showModal} backdropDismiss={false}>
-          <ModalHeader title={t('Species')} onClose={this.hideSpeciesModal} />
+          <ModalHeader title="Species" onClose={this.hideSpeciesModal} />
           {this.state.showModal && (
             <SpeciesProfile species={this.state.species} />
           )}

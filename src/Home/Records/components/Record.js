@@ -16,16 +16,16 @@ import ErrorMessage from './components/ErrorMessage';
 
 function deleteRecord(sample) {
   alert({
-    header: t('Delete'),
-    message: t('Are you sure you want to delete this record?'),
+    header: 'Delete',
+    message: 'Are you sure you want to delete this record?',
     buttons: [
       {
-        text: t('Cancel'),
+        text: 'Cancel',
         role: 'cancel',
         cssClass: 'primary',
       },
       {
-        text: t('Delete'),
+        text: 'Delete',
         cssClass: 'secondary',
         handler: () => {
           sample.destroy();
@@ -60,7 +60,7 @@ const Record = observer(({ sample }) => {
       >
         <IonLabel>
           <h3>
-            <b>{t(species)}</b>
+            <b>{species}</b>
           </h3>
           <h4>{prettyDate}</h4>
         </IonLabel>
@@ -68,7 +68,7 @@ const Record = observer(({ sample }) => {
       </IonItem>
       <IonItemOptions side="end">
         <IonItemOption color="danger" onClick={() => deleteRecord(sample)}>
-          {t('Delete')}
+          {'Delete'}
         </IonItemOption>
       </IonItemOptions>
     </IonItemSliding>

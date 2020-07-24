@@ -1,7 +1,7 @@
 module.exports = grunt => ({
   default: ['init', 'webpack:main'],
 
-  init: ['init:validate'],
+  init: ['init:validate', 'copy:main'],
 
   'init:validate': () => {
     if (process.env.APP_FORCE) {
@@ -18,13 +18,9 @@ module.exports = grunt => ({
     if (process.env.APP_INDICIA_API_HOST) {
       grunt.warn('APP_INDICIA_API_HOST is enabled');
     }
-    if (process.env.APP_SCREENSHOTS) {
-      grunt.warn('APP_SCREENSHOTS is enabled');
-    }
 
     // check for missing env vars
     [
-      'APP_OS_MAP_KEY',
       'APP_MAPBOX_MAP_KEY',
       'APP_SENTRY_KEY',
       'APP_INDICIA_API_KEY',
@@ -39,6 +35,9 @@ module.exports = grunt => ({
 
   // Cordova set up
   cordova: [
+    // prepare www source
+    'default',
+
     // init cordova source
     // add www source to cordova
     'exec:cordova_init',

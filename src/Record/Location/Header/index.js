@@ -4,7 +4,7 @@ import AppHeader from 'Components/Header';
 import './styles.scss';
 
 const Header = observer(() => {
-  return <AppHeader title={t('Location')} />;
+  return <AppHeader title='Location' />;
 });
 
 Header.propTypes = {};

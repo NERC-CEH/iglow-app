@@ -8,7 +8,6 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const pkg = require('./package.json');
 
@@ -18,7 +17,7 @@ const SRC_DIR = path.resolve(ROOT_DIR, 'src');
 
 const config = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  entry: [path.join(SRC_DIR, 'index.js'), path.join(SRC_DIR, 'vendor.js')],
+  entry: ['index.js', 'vendor.js'],
   devtool: 'source-map',
   target: 'web',
 
@@ -35,8 +34,6 @@ const config = {
       path.resolve(ROOT_DIR, './src/common/vendor'),
     ],
     alias: {
-      Lib: 'common/Lib',
-      Components: 'common/Components',
       config: 'common/config/config',
       helpers: 'common/helpers',
       saved_samples: 'common/saved_samples',
@@ -44,7 +41,7 @@ const config = {
       occurrence: 'common/models/occurrence',
       app_model: 'common/models/app_model',
       user_model: 'common/models/user_model',
-      model_factory: 'common/models/model_factory',
+      Components: 'common/Components',
     },
   },
   module: {
@@ -70,12 +67,13 @@ const config = {
           {
             loader: 'string-replace-loader',
             options: {
-              search: './default-skin.svg',
-              replace: '/images/default-skin.svg',
+              search: './default-skin.png',
+              replace: '/images/default-skin.png',
               flags: 'g',
             },
           },
           'css-loader?-url',
+
           {
             loader: 'postcss-loader',
             options: {
@@ -85,9 +83,11 @@ const config = {
               },
             },
           },
+
           `sass-loader`,
         ],
       },
+      { test: /\.pot?$/, loader: 'json-loader!po-loader?format=mf' },
     ],
   },
 
@@ -120,23 +120,29 @@ const config = {
 
       'process.env': {
         // package.json variables
-        APP_BUILD: JSON.stringify(process.env.TRAVIS_BUILD_ID || pkg.build || new Date().getTime()),
+        APP_BUILD: JSON.stringify(
+          process.env.TRAVIS_BUILD_ID || pkg.build || new Date().getTime()
+        ),
         APP_NAME: JSON.stringify(pkg.name), // no need to be an env value
         APP_VERSION: JSON.stringify(pkg.version), // no need to be an env value
 
         // mandatory env. variables
-        APP_INDICIA_API_KEY: JSON.stringify(process.env.APP_INDICIA_API_KEY || ''),
-        APP_OS_MAP_KEY: JSON.stringify(process.env.APP_OS_MAP_KEY || ''),
-        APP_MAPBOX_MAP_KEY: JSON.stringify(process.env.APP_MAPBOX_MAP_KEY || ''),
+        APP_INDICIA_API_KEY: JSON.stringify(
+          process.env.APP_INDICIA_API_KEY || ''
+        ),
+        APP_MAPBOX_MAP_KEY: JSON.stringify(
+          process.env.APP_MAPBOX_MAP_KEY || ''
+        ),
 
         // compulsory env. variables
-        APP_INDICIA_API_HOST: JSON.stringify(process.env.APP_INDICIA_API_HOST || ''),
+        APP_INDICIA_API_HOST: JSON.stringify(
+          process.env.APP_INDICIA_API_HOST || ''
+        ),
         APP_TRAINING: process.env.APP_TRAINING || false,
-        APP_SCREENSHOTS: process.env.APP_SCREENSHOTS || false,
         APP_EXPERIMENTS: process.env.APP_EXPERIMENTS || false,
         APP_SENTRY_KEY: JSON.stringify(process.env.APP_SENTRY_KEY || ''),
         APP_GA: JSON.stringify(process.env.APP_GA || false),
-        
+
         // https://github.com/webpack-contrib/karma-webpack/issues/316
         SAUCE_LABS: JSON.stringify(process.env.SAUCE_LABS),
       },
@@ -162,16 +168,8 @@ const config = {
   },
 };
 
-if (process.env.NODE_ANALYZE) {
-  config.plugins.push(new BundleAnalyzerPlugin());
-}
-
 if (process.env.APP_MANUAL_TESTING) {
   config.entry.push('./test/manual-test-utils.js');
-}
-
-if (process.env.APP_SCREENSHOTS) {
-  config.entry.push('./other/cordova/screenshots-setup.js');
 }
 
 module.exports = config;

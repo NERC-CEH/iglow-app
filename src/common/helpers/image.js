@@ -1,7 +1,7 @@
 /** ****************************************************************************
  * Functions to work with media.
  **************************************************************************** */
-import Indicia from '@indicia-js/core';
+import Indicia from 'indicia';
 import Log from './log';
 import Device from './device';
 
@@ -122,12 +122,10 @@ const Image = {
     const success = args => {
       const [data, type, width, height] = args;
       const imageModel = new ImageModel({
-        attrs: {
-          data,
-          type,
-          width,
-          height,
-        },
+        data,
+        type,
+        width,
+        height,
       });
 
       return imageModel.addThumbnail().then(() => imageModel);
@@ -145,10 +143,6 @@ const Image = {
       const fileName = file.split('/').pop();
       return success([fileName, 'jpeg', width, height]);
     });
-  },
-
-  validateRemote() {
-    // nothing to validate yet
   },
 };
 

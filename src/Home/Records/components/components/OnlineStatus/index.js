@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IonSpinner, IonLabel, IonBadge } from '@ionic/react';
-
 import { observer } from 'mobx-react';
 import './styles.scss';
 
@@ -12,7 +11,7 @@ const Component = observer(props => {
   if (!saved) {
     return (
       <IonLabel slot="end" class="record-status">
-        <IonBadge class="ion-text-wrap">{t('Draft')}</IonBadge>
+        <IonBadge class="ion-text-wrap">{'Draft'}</IonBadge>
       </IonLabel>
     );
   }

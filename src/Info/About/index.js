@@ -1,64 +1,64 @@
 import React from 'react';
-import { IonList, IonItem, IonLabel, IonPage } from '@ionic/react';
-import AppMain from 'Components/Main';
+import {
+  IonContent,
+  IonList,
+  IonItem,
+  IonListHeader,
+  IonLabel,
+  IonPage,
+} from '@ionic/react';
 import AppHeader from 'Components/Header';
 import './styles.scss';
 
 const Component = () => (
   <IonPage>
-    <AppHeader title={t('About')} />
-    <AppMain id="about" class="ion-padding">
+    <AppHeader title='About' />
+    <IonContent id="about" class="ion-padding">
       <IonList lines="none">
         <IonItem>
-          <IonLabel>
-            {t(
-              'iRecord App is an application that enables you to get involved in biological recording. You can contribute your sightings with photos, GPS acquired coordinates, descriptions and other information, thus providing scientists with important new biodiversity information that contributes to nature conservation, planning, research and education.'
-            )}
-          </IonLabel>
-        </IonItem>
-      </IonList>
-      <IonList lines="none">
-        <IonItem lines="inset">
-          <IonLabel>
-            <b>{t('Who can use the app?')}</b>
+          <IonLabel>            
+             The iGlow App is designed to encourage recording of firefly or glow-worm in the wild.            
           </IonLabel>
         </IonItem>
         <IonItem>
           <IonLabel>
-            {t(
-              'We encourage everyone to get involved with recording species as it is very easy and quick to submit useful records without specialist knowledge. It doesn&apos;t matter whether you are an amateur enthusiast or a qualified biologist, iRecord App is for anyone who wants to contribute to our database observations of the natural environment.'
-            )}
-          </IonLabel>
-        </IonItem>
-      </IonList>
-      <IonList lines="none">
-        <IonItem lines="inset">
-          <IonLabel>
-            <b>{t('App Development')}</b>
+            Sightings can be recorded anywhere, with or without photos, and all records will be verified by experts and made available to help with mapping the distribution. You can check and update your records online. 
           </IonLabel>
         </IonItem>
         <IonItem>
           <IonLabel>
-            {t('This app was hand crafted with love by')}
-            <a href="https://flumens.io" style={{ whiteSpace: 'nowrap' }}>
-              {' '}
-              Flumens.
+            iGlow is designed to make recording easy. 
+          </IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonLabel>
+              Users must first register, and can then log into a web site to view and correct records.
+            <br />
+            <br />
+            <a href="https://www.firefliesandglow-worms.co.uk" target="_blank">
+              https://www.firefliesandglow-worms.co.uk
             </a>
-            {' '}
-            {t(
-              'Agency specializing in building bespoke data oriented sollutions.'
-            )}
-            {' '}
-            {t('For suggestions and feedback please do not hesitate to')}
-            {' '}
-            <a href="mailto:apps%40ceh.ac.uk?subject=iRecord%20App">
-              {t('contact us')}
+          </IonLabel>
+        </IonItem>
+        <IonListHeader color="light" mode="ios">
+          <IonLabel>App Development</IonLabel>
+        </IonListHeader>
+        <IonItem>
+          <IonLabel>
+            {'This app was hand crafted with love by'}
+            <a href="https://www.ceh.ac.uk/staff/biren-rathod" style={{ whiteSpace: 'nowrap' }}>
+              {' '}
+              Biren Rathod.
+            </a>{' '}
+            {'For suggestions and feedback please do not hesitate to'}{' '}
+            <a href="mailto:brc%40ceh.ac.uk?subject=iGlow%20App">
+              {'contact us'}
             </a>
             .
           </IonLabel>
         </IonItem>
       </IonList>
-    </AppMain>
+    </IonContent>
   </IonPage>
 );
 

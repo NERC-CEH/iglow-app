@@ -1,4 +1,4 @@
-import Indicia from '@indicia-js/core';
+import Indicia from 'indicia';
 import Log from 'helpers/log';
 
 function fixPreviousVersions(URL) {
@@ -32,48 +32,28 @@ function deleteFile(fileName) {
   });
 }
 
-class Media extends Indicia.Media {
-  async destroy(silent) {
+export default Indicia.Media.extend({
+  destroy(...args) {
     Log('MediaModel: destroying.');
 
     // remove from internal storage
     if (!window.cordova || window.testing) {
-      if (!this.parent) {
-        return null;
-      }
-
-      this.parent.media.remove(this);
-
-      if (silent) {
-        return null;
-      }
-
-      return this.parent.save();
+      Indicia.Media.prototype.destroy.apply(this, args);
+      return;
     }
 
-    let URL = this.attrs.data;
+    let URL = this.get('data');
     URL = fixPreviousVersions(URL);
 
-    try {
-      await deleteFile(URL);
-      if (!this.parent) {
-        return null;
-      }
-      this.parent.media.remove(this);
-
-      if (silent) {
-        return null;
-      }
-
-      return this.parent.save();
-    } catch (err) {
-      Log(err, 'e');
-      return null;
-    }
-  }
+    deleteFile(URL)
+      .then(() => {
+        Indicia.Media.prototype.destroy.apply(this, args);
+      })
+      .catch(err => Log(err, 'e'));
+  },
 
   getURL() {
-    let URL = this.attrs.data;
+    let URL = this.get('data');
 
     if (!window.cordova || window.testing) {
       return URL;
@@ -81,12 +61,5 @@ class Media extends Indicia.Media {
 
     URL = cordova.file.dataDirectory + fixPreviousVersions(URL);
     return window.Ionic.WebView.convertFileSrc(URL);
-  }
-
-  // eslint-disable-next-line
-  validateRemote() {
-    return null;
-  }
-}
-
-export default Media;
+  },
+});

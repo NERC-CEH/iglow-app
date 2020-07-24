@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { IonList, IonItem, IonIcon, IonLabel, IonContent } from '@ionic/react';
-import { map, calendar, clipboard } from 'ionicons/icons';
+import { IonList, IonListHeader, IonItem, IonIcon, IonLabel, IonSelect, IonSelectOption, IonContent } from '@ionic/react';
+import { map, calendar, clipboard, clock, sunny, thermometer, pin, flask, flower, flashlight} from 'ionicons/icons';
 import { observer } from 'mobx-react';
 import dateHelp from 'helpers/date';
 import './styles.scss';
-import './skull.svg';
 import './footprint.svg';
-import './deer.svg';
-import './binoculars.svg';
-import './number.svg';
-import './gender.svg';
-import './age.svg';
-import './boar.svg';
+import './larvae.svg';
+import './male.svg';
+import './woman.svg';
 
 const { print: prettyDate } = dateHelp;
 
@@ -22,53 +18,19 @@ class Record extends Component {
     sample: PropTypes.object.isRequired,
   };
 
-  getBoarSpecificAttributes = () => {
-    const { sample } = this.props;
-    const occ = sample.occurrences.at(0);
-    const { gender, age, decomposition, taxon } = occ.attributes;
-
-    const WILD_BOAR = 'Sus scrofa';
-    if (!taxon || taxon.taxon !== WILD_BOAR) {
-      return null;
-    }
-
-    return (
-      <>
-        <IonItem routerLink={`/record/${sample.cid}/edit/gender`} detail>
-          <IonIcon src="/images/gender.svg" slot="start" />
-          <IonLabel>{t('Gender')}</IonLabel>
-          <IonLabel slot="end">{t(gender)}</IonLabel>
-        </IonItem>
-        <IonItem routerLink={`/record/${sample.cid}/edit/age`} detail>
-          <IonIcon src="/images/age.svg" slot="start" />
-          <IonLabel>{t('Age')}</IonLabel>
-          <IonLabel slot="end">{t(age)}</IonLabel>
-        </IonItem>
-        <IonItem routerLink={`/record/${sample.cid}/edit/decomposition`} detail>
-          <IonIcon src="/images/skull.svg" slot="start" />
-          <IonLabel>{t('Decomposition')}</IonLabel>
-          <IonLabel slot="end">{t(decomposition)}</IonLabel>
-        </IonItem>
-      </>
-    );
-  };
-
   render() {
     const { sample } = this.props;
     const occ = sample.occurrences.at(0);
-    const { location, date } = sample.attributes;
-    const { taxon, method, type, comment } = occ.attributes;
+    const { location, date, time, condition, temprature, site, chemical, grazed, lights } = sample.attributes;
+    const { taxon, female, male, larvae, certainity, position, comment } = occ.attributes;
     const species = taxon.english && t(taxon.english);
-
-    const prettyNumber =
-      occ.attributes.number || occ.attributes['number-ranges'];
 
     const isGPSTracking = sample.isGPSRunning();
     let prettyLocation;
     if (isGPSTracking) {
       prettyLocation = (
         <span className="warn">
-          {t('Locating')}
+          Locating
           ...
         </span>
       );
@@ -88,18 +50,13 @@ class Record extends Component {
     return (
       <IonContent id="record-edit">
         <IonList lines="full">
-          <IonItem routerLink={`/record/${sample.cid}/edit/species`} detail>
-            <IonIcon src="/images/deer.svg" slot="start" />
-            <IonLabel>{t('Species')}</IonLabel>
-            <IonLabel slot="end">{species}</IonLabel>
-          </IonItem>
           <IonItem
             class="record-location"
             routerLink={`/record/${sample.cid}/edit/location`}
             detail
           >
             <IonIcon icon={map} slot="start" />
-            <IonLabel>{t('Location')}</IonLabel>
+            <IonLabel>Location</IonLabel>
             <IonLabel slot="end">
               {prettyLocation}
               {locationAccuracy && (
@@ -111,30 +68,69 @@ class Record extends Component {
           </IonItem>
           <IonItem routerLink={`/record/${sample.cid}/edit/date`} detail>
             <IonIcon icon={calendar} slot="start" />
-            <IonLabel>{t('Date')}</IonLabel>
+            <IonLabel>Date</IonLabel>
             <IonLabel slot="end">{prettyDate(date, true)}</IonLabel>
           </IonItem>
-          <IonItem routerLink={`/record/${sample.cid}/edit/number`} detail>
-            <IonIcon src="/images/number.svg" slot="start" />
-            <IonLabel>{t('Number')}</IonLabel>
-            <IonLabel slot="end">{prettyNumber}</IonLabel>
+          <IonItem routerLink={`/record/${sample.cid}/edit/time`} detail>
+            <IonIcon icon={clock} slot="start" />
+            <IonLabel>Time</IonLabel>
+            <IonLabel slot="end">{time}</IonLabel>
           </IonItem>
-          <IonItem routerLink={`/record/${sample.cid}/edit/method`} detail>
-            <IonIcon src="/images/binoculars.svg" slot="start" />
-            <IonLabel>{t('Method')}</IonLabel>
-            <IonLabel slot="end">{t(method)}</IonLabel>
+          </IonList>
+          <IonList>          
+          <IonItem routerLink={`/record/${sample.cid}/edit/condition`} detail>
+            <IonIcon icon={sunny} slot="start" />
+            <IonLabel>Conditions</IonLabel>
+            <IonLabel slot="end">{condition}</IonLabel>
           </IonItem>
-          <IonItem routerLink={`/record/${sample.cid}/edit/type`} detail>
+          <IonItem routerLink={`/record/${sample.cid}/edit/temprature`} detail>
+            <IonIcon icon={thermometer} slot="start" />
+            <IonLabel>Temprature (Celsius)</IonLabel>
+            <IonLabel slot="end">{temprature}</IonLabel>
+          </IonItem>
+          <IonItem routerLink={`/record/${sample.cid}/edit/female`} detail>
+            <IonIcon icon="/images/woman.svg" slot="start" />
+            <IonLabel>Female?</IonLabel>
+            <IonLabel slot="end">{female}</IonLabel>
+          </IonItem>
+          <IonItem routerLink={`/record/${sample.cid}/edit/male`} detail>
+            <IonIcon icon="/images/male.svg" slot="start" />
+            <IonLabel>Male?</IonLabel>
+            <IonLabel slot="end">{male}</IonLabel>
+          </IonItem>
+          <IonItem routerLink={`/record/${sample.cid}/edit/larvae`} detail>
+            <IonIcon icon="/images/larvae.svg" slot="start" />
+            <IonLabel>Larvae?</IonLabel>
+            <IonLabel slot="end">{larvae}</IonLabel>
+          </IonItem>
+          <IonItem routerLink={`/record/${sample.cid}/edit/site`} detail>
+            <IonIcon icon={pin} slot="start" />
+            <IonLabel>Type of site</IonLabel>
+            <IonLabel slot="end">{site}</IonLabel>
+          </IonItem>
+          <IonItem routerLink={`/record/${sample.cid}/edit/position`} detail>
+            <IonIcon icon={flower} slot="start" />
+            <IonLabel>Position of glow worms</IonLabel>
+            <IonLabel slot="end">{position}</IonLabel>
+          </IonItem>
+          <IonItem routerLink={`/record/${sample.cid}/edit/chemical`} detail>
+            <IonIcon icon={flask} slot="start" />
+            <IonLabel>Any chemicals use on land?</IonLabel>
+            <IonLabel slot="end">{chemical}</IonLabel>
+          </IonItem>
+          <IonItem routerLink={`/record/${sample.cid}/edit/grazed`} detail>
             <IonIcon src="/images/footprint.svg" slot="start" />
-            <IonLabel>{t('Type')}</IonLabel>
-            <IonLabel slot="end">{t(type)}</IonLabel>
+            <IonLabel>Is the area grazed?</IonLabel>
+            <IonLabel slot="end">{grazed}</IonLabel>
           </IonItem>
-
-          {this.getBoarSpecificAttributes()}
-
+          <IonItem routerLink={`/record/${sample.cid}/edit/lights`} detail>
+            <IonIcon icon={flashlight} slot="start" />
+            <IonLabel>Is there any atificial lights?</IonLabel>
+            <IonLabel slot="end">{lights}</IonLabel>
+          </IonItem>
           <IonItem routerLink={`/record/${sample.cid}/edit/comment`} detail>
             <IonIcon icon={clipboard} slot="start" />
-            <IonLabel>{t('Comment')}</IonLabel>
+            <IonLabel>Comment</IonLabel>
             <IonLabel slot="end">{comment}</IonLabel>
           </IonItem>
         </IonList>

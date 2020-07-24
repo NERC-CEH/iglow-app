@@ -9,4 +9,3 @@ node_modules
 yarn.lock
 coverage
 .vscode
-.bit

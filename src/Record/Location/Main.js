@@ -96,7 +96,7 @@ class LocationAttr extends Component {
       return (
         <IonItem>
           <IonLabel color="light" className="ion-text-center ion-text-wrap">
-            {t('Please use the GPS or tap on the map to select your location')}
+            Please use the GPS or tap on the map to select your location
           </IonLabel>
         </IonItem>
       );
@@ -106,7 +106,7 @@ class LocationAttr extends Component {
       return (
         <IonItem>
           <IonLabel color="light" className="ion-text-center ion-text-wrap">
-            {`GPS ${t('Accuracy: ')} ${location.accuracy}m`}
+            {`GPS ${'Accuracy: '} ${location.accuracy}m`}
           </IonLabel>
         </IonItem>
       );
@@ -114,11 +114,11 @@ class LocationAttr extends Component {
 
     return (
       <IonItem>
-        <IonLabel>{t('Location Accurracy')}</IonLabel>
+        <IonLabel>Location Accurracy</IonLabel>
         <IonSelect
           value={this.props.accurracy}
-          okText={t('OK')}
-          cancelText={t('Close')}
+          okText='OK'
+          cancelText='Close'
           ref={this.selectRef}
           onIonChange={this.props.setLocationAccurracy}
         >

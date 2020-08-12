@@ -40,7 +40,7 @@ const InputWithValidation = ({
               class="hydrated"
               aria-label="information circle outline"
             />
-            <span>{t(errors[name])}</span>
+            <span>{errors[name]}</span>
           </div>
         </div>
       )}

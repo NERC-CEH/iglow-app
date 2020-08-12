@@ -33,9 +33,14 @@ class Component extends React.Component {
 
   constructor(props) {
     super(props);
-
+    
+    this.state = { hasError: false };
     this.map = React.createRef();
     this.speciesMap = React.createRef();
+  }
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
   }
 
   componentDidMount() {
@@ -58,12 +63,12 @@ class Component extends React.Component {
   }
 
   render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
     const { species } = this.props;
-
-    //const { mammalnet_website_path: webPath } = species;
-
     const url = `${SPECIES_BASE_URL}`;
-
     const habitatsString = habitats
       .filter(habitat => species[habitat])
       .map(habitat => habitat)

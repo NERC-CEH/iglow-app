@@ -69,7 +69,16 @@ let Sample = Indicia.Sample.extend({
   defaults() {
     return {
       entered_sref_system: 4326, // lat long
-      location: null,
+      location_type: 'latlon',
+      location: {
+        accuracy: null,
+        altitude: null,
+        gridref: null,
+        latitude: null,
+        longitude: null,
+        name: null,
+        source: null,
+      },
       manual_location_accuracy: null,
     };
   },

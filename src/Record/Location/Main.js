@@ -21,9 +21,10 @@ import 'leaflet/dist/images/marker-shadow.png';
 
 L.Icon.Default.imagePath = '/images/';
 
-const DEFAULT_POSITION = [47.946, 8.536];
-const DEFAULT_ZOOM = 5;
-const DEFAULT_LOCATED_ZOOM = 18;
+const DEFAULT_POSITION = [53.7326306, -2.6546124];
+const DEFAULT_ZOOM = 6;
+const OS_ZOOM_DIFF = 6;
+const DEFAULT_LOCATED_ZOOM = 1 + OS_ZOOM_DIFF;
 
 @observer
 class LocationAttr extends Component {
@@ -106,7 +107,7 @@ class LocationAttr extends Component {
       return (
         <IonItem>
           <IonLabel color="light" className="ion-text-center ion-text-wrap">
-            {`GPS ${'Accuracy: '} ${location.accuracy}m`}
+            {`GPS Accuracy: ${location.accuracy}m`}
           </IonLabel>
         </IonItem>
       );

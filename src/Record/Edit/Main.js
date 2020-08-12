@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { IonList, IonListHeader, IonItem, IonIcon, IonLabel, IonSelect, IonSelectOption, IonContent } from '@ionic/react';
+import { IonList, IonItem, IonIcon, IonLabel, IonContent } from '@ionic/react';
 import { map, calendar, clipboard, clock, sunny, thermometer, pin, flask, flower, flashlight} from 'ionicons/icons';
 import { observer } from 'mobx-react';
 import dateHelp from 'helpers/date';
@@ -13,9 +13,10 @@ import './woman.svg';
 const { print: prettyDate } = dateHelp;
 
 @observer
-class Record extends Component {
+class Record extends React.Component {
   static propTypes = {
     sample: PropTypes.object.isRequired,
+    
   };
 
   render() {
@@ -23,15 +24,18 @@ class Record extends Component {
     const occ = sample.occurrences.at(0);
     const { location, date, time, condition, temprature, site, chemical, grazed, lights } = sample.attributes;
     const { taxon, female, male, larvae, certainity, position, comment } = occ.attributes;
-    const species = taxon.english && t(taxon.english);
+    //const species = taxon.english && t(taxon.english);
+
+    const locks = {};
+    locks[0] = ['smp:location'];
+    locks[1] = ['smp:locationName'];
 
     const isGPSTracking = sample.isGPSRunning();
     let prettyLocation;
     if (isGPSTracking) {
       prettyLocation = (
         <span className="warn">
-          Locating
-          ...
+          Locating...
         </span>
       );
     } else if (location && location.latitude) {
@@ -47,10 +51,10 @@ class Record extends Component {
         ? ''
         : sample.get('manual_location_accuracy');
 
-    return (
+        return (
       <IonContent id="record-edit">
         <IonList lines="full">
-          <IonItem
+        <IonItem
             class="record-location"
             routerLink={`/record/${sample.cid}/edit/location`}
             detail

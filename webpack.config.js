@@ -127,17 +127,12 @@ const config = {
         APP_VERSION: JSON.stringify(pkg.version), // no need to be an env value
 
         // mandatory env. variables
-        APP_INDICIA_API_KEY: JSON.stringify(
-          process.env.APP_INDICIA_API_KEY || ''
-        ),
-        APP_MAPBOX_MAP_KEY: JSON.stringify(
-          process.env.APP_MAPBOX_MAP_KEY || ''
-        ),
+        APP_INDICIA_API_KEY: JSON.stringify(process.env.APP_INDICIA_API_KEY || ''),
+        APP_OS_MAP_KEY: JSON.stringify(process.env.APP_OS_MAP_KEY || ''),
+        APP_MAPBOX_MAP_KEY: JSON.stringify(process.env.APP_MAPBOX_MAP_KEY || ''),
 
         // compulsory env. variables
-        APP_INDICIA_API_HOST: JSON.stringify(
-          process.env.APP_INDICIA_API_HOST || ''
-        ),
+        APP_INDICIA_API_HOST: JSON.stringify(process.env.APP_INDICIA_API_HOST || ''),
         APP_TRAINING: process.env.APP_TRAINING || false,
         APP_EXPERIMENTS: process.env.APP_EXPERIMENTS || false,
         APP_SENTRY_KEY: JSON.stringify(process.env.APP_SENTRY_KEY || ''),

@@ -1,15 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import {
   IonContent,
   IonModal,
-  IonHeader,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonIcon,
   IonGrid,
   IonRow,
   IonPage,
@@ -82,7 +76,7 @@ class Component extends React.Component {
       }
 
       return (
-        <IonRow 
+        <IonCol 
           key={id}
           className="species-list-item"
           onClick={onClick}
@@ -97,7 +91,7 @@ class Component extends React.Component {
           >
             <span className="label">{english}</span>
           </div>
-        </IonRow>
+        </IonCol>
       );
     };
 
@@ -105,7 +99,7 @@ class Component extends React.Component {
 
     return (
       <IonGrid class="ion-no-padding ion-no-margin">
-        {speciesColumns}
+        <IonRow >{speciesColumns}</IonRow>
       </IonGrid>
     );
   }

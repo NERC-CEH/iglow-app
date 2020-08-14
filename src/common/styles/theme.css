@@ -18,12 +18,12 @@
 // https://beta.ionicframework.com/docs/theming/color-generator
 */
 :root {
-  --ion-color-primary: #3607f0;
+  --ion-color-primary: #6cbe45;
   --ion-color-primary-rgb: 165,106,3;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255,255,255;
   --ion-color-primary-shade: rgb(48, 66, 59);
-  --ion-color-primary-tint: rgb(81, 114, 101);
+  --ion-color-primary-tint: #b1f32e;
 
   --ion-color-secondary: #008eec;
   --ion-color-secondary-rgb: 0,142,236;

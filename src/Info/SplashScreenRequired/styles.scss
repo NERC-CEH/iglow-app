@@ -22,7 +22,7 @@ ion-slides#welcome {
 
   .message {
     position: absolute;
-    width: 70%;
+    width: 40%;
     padding-left: 10px;
 
     // Hack around the tablet hidden message issue
@@ -35,7 +35,7 @@ ion-slides#welcome {
   .message p,
   .message h2 {
     padding: 10px;
-    color: whitesmoke;
+    color: black;
     background-color: var(--ion-color-primary-tint);
   }
 
@@ -64,7 +64,7 @@ ion-slides#welcome {
       background-size: cover;
 
       .message {
-        text-align: left;
+        text-align: center;
         left: 10vw;
         top: 1vh;
       }
@@ -75,7 +75,7 @@ ion-slides#welcome {
       background-position: left;
       background-size: cover;
       .message {
-        text-align: left;
+        text-align: center;
         right: 10vw;
         top: 1vh;
       }

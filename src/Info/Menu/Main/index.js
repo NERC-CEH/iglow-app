@@ -26,7 +26,7 @@ const Component = observer(({ isLoggedIn, user, logOut, appModel }) => {
 
   return (
     <IonContent class="app-menu">
-      <img src="/images/logo.png" alt="app logo" />
+      <div class="logo"><img src="/images/logo.png" alt="app logo" /></div>
 
       <IonList lines="full">
         {isLoggedIn && (

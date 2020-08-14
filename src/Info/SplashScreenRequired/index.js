@@ -24,7 +24,7 @@ const SplashScreen = () => {
     <IonSlides id="welcome" pager="true" >
       <IonSlide class="fourth">
         <div className="message">
-          <p>To record a glow worm/ firefly species anywhere in the UK.</p>
+          <p>To record a glow worm / firefly species anywhere in the UK.</p>
         </div>
         <IonButton color="primary" strong="true" onClick={exit}>Get Started</IonButton>
       </IonSlide>

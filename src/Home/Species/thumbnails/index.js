@@ -2,4 +2,4 @@
  * Multi media loading file
  **************************************************************************** */
 
-import './lampyris-noctiluca.jpg';
+import './Lampyris-noctiluca_Julian_hodson_Large.jpg';

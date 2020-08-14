@@ -69,7 +69,7 @@ class Component extends React.Component {
 
       const backgroundImage = group
         ? `url('/images/${taxon.toLowerCase()}_thumbnail.png')`
-        : `url('/images/lampyris-noctiluca.jpg'`;
+        : `url('/images/Lampyris-noctiluca_Julian_hodson_Large.jpg'`;
 
       if (!id) {
         console.log(sp);

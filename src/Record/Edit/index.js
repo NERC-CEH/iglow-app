@@ -46,7 +46,7 @@ async function showDraftAlert() {
 
 function showValidationAlert(errors) {
   const errorsPretty = errors.errors.reduce(
-    (agg, err) => `${agg} ${t(err)}`,
+    (agg, err) => `${agg} ${err}`,
     ''
   );
   alert({
@@ -96,7 +96,7 @@ class Container extends React.Component {
     }
 
     const sample = await createNewSample(savedSamples);
-    //sample.toggleGPStracking();
+    sample.toggleGPStracking();
 
     appModel.set('recordDraftId', sample.cid);
     await appModel.save();

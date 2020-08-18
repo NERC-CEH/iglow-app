@@ -51,7 +51,7 @@ class Component extends React.Component {
       .sort(bySpeciesId);
 
     return isRecordingMode
-      ? [...filteredSpecies, ...speciesGroupsToShow]
+      ? [...filteredSpecies]
       : filteredSpecies;
   };
 
@@ -89,7 +89,7 @@ class Component extends React.Component {
               backgroundImage,
             }}
           >
-            <span className="label">{english}</span>
+            <span className="label">{english}&nbsp; Photo: Julian Hodson</span>
           </div>
         </IonCol>
       );

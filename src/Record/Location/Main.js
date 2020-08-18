@@ -112,27 +112,8 @@ class LocationAttr extends Component {
         </IonItem>
       );
     }
-
-    return (
-      <IonItem>
-        <IonLabel>Location Accurracy</IonLabel>
-        <IonSelect
-          value={this.props.accurracy}
-          okText='OK'
-          cancelText='Close'
-          ref={this.selectRef}
-          onIonChange={this.props.setLocationAccurracy}
-        >
-          <IonSelectOption value="0-10m">0-10m</IonSelectOption>
-          <IonSelectOption value="10-50m">10-50m</IonSelectOption>
-          <IonSelectOption value="50-100m">50-100m</IonSelectOption>
-          <IonSelectOption value="100m-1km">100m-1km</IonSelectOption>
-          <IonSelectOption value=">1km">{'>1km'}</IonSelectOption>
-          <IonSelectOption value="NA">NA</IonSelectOption>
-        </IonSelect>
-      </IonItem>
-    );
   };
+  
 
   render() {
     const { isGPSTracking, toggleGPStracking, location } = this.props;

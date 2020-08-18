@@ -7,23 +7,6 @@ import DateHelp from 'helpers/date';
 const HOST =
   process.env.APP_INDICIA_API_HOST || 'https://www.brc.ac.uk/irecord/';
 
-const typeValues = [
-  { value: 'Alive', id: 17463 },
-  { value: 'Dead - roadkill', id: 17464 },
-  { value: 'Dead - other', id: 17465 },
-  { value: 'Hunted', id: 17780 },
-  {
-    value: 'Indirect',
-    type: 'radio',
-    values: [
-      { value: 'Print/trail', id: 17466 },
-      { value: 'Dropping', id: 17467 },
-      { value: 'Den/burrow', id: 17468 },
-      { value: 'Other (specify in Comment)', id: 17469 },
-    ],
-  },
-];
-
 function flattenForKeys(list) {
   return list.reduce((agg, item) => {
     if (item.values) {
@@ -87,34 +70,12 @@ const CONFIG = {
     attrs: {
       smp: {
         location: {
-          id: 'entered_sref',
-          hideName: true,
-          values(location, submission) {
-        // convert accuracy for map and gridref sources
-        const { accuracy, source, gridref, altitude, name } = location;
-        const keys = record.attrs;
-
-        const locationAttributes = {
-          location_name: name, // location_name is a native indicia attr
-          [keys.location_source.id]: source,
-          [keys.location_gridref.id]: gridref,
-          [keys.location_altitude.id]: altitude,
-          [keys.location_altitude_accuracy.id]: location.altitudeAccuracy,
-          [keys.location_accuracy.id]: accuracy,
-        };
-
-        // add other location related attributes
-        submission.fields = { ...submission.fields, ...locationAttributes };
-
-        const lat = parseFloat(location.latitude);
-        const lon = parseFloat(location.longitude);
-        if (Number.isNaN(lat) || Number.isNaN(lat)) {
-          return null;
-        }
-
-        return `${lat.toFixed(7)}, ${lon.toFixed(7)}`;
-      },
-    },
+          values(location) {
+            return `${parseFloat(location.latitude).toFixed(7)}, ${parseFloat(
+              location.longitude
+            ).toFixed(7)}`;
+          },
+        },
         location_accuracy: { id: 282 },
         location_altitude: { id: 283 },
         location_altitude_accuracy: { id: 284 },

@@ -34,16 +34,15 @@ export default Indicia.Occurrence.extend({
   defaults() {
     return {
       comment: null,
-      method: null,
       type: null,
-      number: null,
-      age: null,
-      decomposition: null,
-      gender: null,
-      'number-ranges': null,
+      female: null,
+      male: null,
+      larvae: null,
+      position: null,
       taxon: {
-        scientific_name: null,
-        warehouse_id: null,
+        scientific_name: 'Lampyris noctiluca',
+        warehouse_id: 125837,
+        english: 'glow-worm',
       },
     };
   },

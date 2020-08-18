@@ -9,22 +9,36 @@ import './footprint.svg';
 import './larvae.svg';
 import './male.svg';
 import './woman.svg';
+import './deer.svg';
 
 const { print: prettyDate } = dateHelp;
 
 @observer
 class Record extends React.Component {
   static propTypes = {
-    sample: PropTypes.object.isRequired,
-    
+    sample: PropTypes.object.isRequired,     
   };
+  state = { showModal: false, species: null };
+
+/**   async componentDidMount() {    
+    const { sample } = this.props;
+    const occ = sample.occurrences.at(0);
+    const english = 'glow-worm';
+    const tx = 'Lampyris noctiluca';
+    const wid = 125837;
+    const id = 1;
+    const species = { english, tx, wid, id };
+    this.setState({shwModel: true, species: 1});
+    occ.set('taxon', species);       
+  }
+*/
 
   render() {
     const { sample } = this.props;
     const occ = sample.occurrences.at(0);
     const { location, date, time, condition, temprature, site, chemical, grazed, lights } = sample.attributes;
-    const { taxon, female, male, larvae, certainity, position, comment } = occ.attributes;
-    //const species = taxon.english && t(taxon.english);
+    const { taxon, female, male, larvae, position, comment } = occ.attributes;
+    const species = taxon.english;
 
     const locks = {};
     locks[0] = ['smp:location'];
@@ -54,6 +68,11 @@ class Record extends React.Component {
         return (
       <IonContent id="record-edit">
         <IonList lines="full">
+        <IonItem routerLink={`/record/${sample.cid}/edit/species`} detail>
+            <IonIcon src="/images/deer.svg" slot="start" />
+            <IonLabel>Species</IonLabel>
+            <IonLabel slot="end">{species}</IonLabel>
+        </IonItem>
         <IonItem
             class="record-location"
             routerLink={`/record/${sample.cid}/edit/location`}

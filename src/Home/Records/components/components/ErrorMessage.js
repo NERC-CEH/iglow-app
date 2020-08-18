@@ -11,7 +11,7 @@ function ErrorMessage({ sample }) {
   return (
     <IonItemDivider color="danger">
       <IonLabel>
-        <b>{`${t('Upload')}: `}</b> {t(sample.error.message)}
+        <b>Upload:</b> {sample.error.message}
       </IonLabel>
     </IonItemDivider>
   );

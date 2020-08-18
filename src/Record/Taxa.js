@@ -33,7 +33,7 @@ class Component extends React.Component {
   render() {
     return (
       <IonPage>
-        <AppHeader title={t('Select species')} />
+        <AppHeader title='Select species' />
         <Species
           appModel={this.props.appModel}
           savedSamples={this.props.savedSamples}

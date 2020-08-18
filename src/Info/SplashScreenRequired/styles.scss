@@ -37,6 +37,8 @@ ion-slides#welcome {
     padding: 10px;
     color: black;
     background-color: var(--ion-color-primary-tint);
+    margin-right: 225px !important;
+    margin-left: -225px !important;
   }
 
   .swiper-pagination-bullets {

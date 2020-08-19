@@ -27,7 +27,7 @@ componentDidMount(){
   const taxon = 'Lampyris noctiluca';
   const warehouse_id = 125837;
   const id = 1;
-  const species = { english, id, taxon, warehouse_id  };
+  const species = { english, id, taxon, warehouse_id };
 
   occ.set('taxon', species);
   sample.save();
@@ -38,8 +38,7 @@ componentDidMount(){
     const { sample } = this.props;
     const occ = sample.occurrences.at(0);
     const { location, date, time, condition, temprature, site, chemical, grazed, lights } = sample.attributes;
-    const { taxon, female, male, larvae, position, comment } = occ.attributes;
-    const species = taxon.english;
+    const { female, male, larvae, position, comment } = occ.attributes;
 
     const isGPSTracking = sample.isGPSRunning();
     let prettyLocation;
@@ -91,8 +90,6 @@ componentDidMount(){
             <IonLabel>Time</IonLabel>
             <IonLabel slot="end">{time}</IonLabel>
           </IonItem>
-          </IonList>
-          <IonList>          
           <IonItem routerLink={`/record/${sample.cid}/edit/condition`} detail>
             <IonIcon icon={sunny} slot="start" />
             <IonLabel>Conditions</IonLabel>

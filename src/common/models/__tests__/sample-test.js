@@ -15,8 +15,8 @@ function getRandomSample(taxon) {
   const sample = new Sample(
     {
       location: {
-        latitude: 12.12,
-        longitude: -0.23,
+        latitude: 53.7326306,
+        longitude: -2.6546124,
         name: 'automatic test',
       },
     },

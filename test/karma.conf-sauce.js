@@ -19,9 +19,9 @@ webpackConfigDev.resolve.modules.push(path.resolve('./test/'));
 
 const sauceBrowsers = [
   /**  Browser environment */
-  ['chrome', '69'], // latest
+  ['chrome', '84'], // latest
   ['chrome', '38'], // bottom support
-  ['safari', '11'], // latest
+  ['safari', '13'], // latest
   ['safari', '8'], // bottom support
 
   /**  Mobile environment */

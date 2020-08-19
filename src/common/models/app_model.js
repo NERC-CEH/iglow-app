@@ -6,19 +6,11 @@ import { observable, set as setMobXAttrs } from 'mobx';
 import { getStore } from 'common/store';
 
 const getDefaultAttrs = () => ({
-  showedWelcome: false,  
+  showedWelcome: false,
   useTraining: false,
   feedbackGiven: false,
   recordDraftId: null,
   speciesFilter: [],
-
-  locations: [],
-  attrLocks: { attr: {} },
-  autosync: true,
-  useGridRef: true,
-  useGridMap: true,
-  useGridNotifications: false,
-  gridSquareUnit: 'monad',
 
   useExperiments: false,
   sendAnalytics: true,

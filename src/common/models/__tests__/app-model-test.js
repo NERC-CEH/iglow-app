@@ -17,8 +17,6 @@ describe('App Model', () => {
     const appModel = new AppModel();
     expect(appModel.attrs).to.have.all.keys([
       'showedWelcome',
-      'language',
-      'country',
       'useTraining',
       'feedbackGiven',
       'recordDraftId',

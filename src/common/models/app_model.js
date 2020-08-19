@@ -6,8 +6,7 @@ import { observable, set as setMobXAttrs } from 'mobx';
 import { getStore } from 'common/store';
 
 const getDefaultAttrs = () => ({
-  showedWelcome: false,
-
+  showedWelcome: false,  
   useTraining: false,
   feedbackGiven: false,
   recordDraftId: null,

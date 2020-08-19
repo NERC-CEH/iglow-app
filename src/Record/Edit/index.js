@@ -115,7 +115,7 @@ class Container extends React.Component {
     appModel.set('recordDraftId', null);
     await appModel.save();
 
-    //sample.toggleGPStracking(false);
+    sample.toggleGPStracking(false);
 
     sample.metadata.saved = true;
     sample.error.message = null;

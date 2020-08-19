@@ -18,20 +18,21 @@ class Record extends React.Component {
   static propTypes = {
     sample: PropTypes.object.isRequired,     
   };
-  state = { showModal: false, species: null };
 
-/**   async componentDidMount() {    
-    const { sample } = this.props;
-    const occ = sample.occurrences.at(0);
-    const english = 'glow-worm';
-    const tx = 'Lampyris noctiluca';
-    const wid = 125837;
-    const id = 1;
-    const species = { english, tx, wid, id };
-    this.setState({shwModel: true, species: 1});
-    occ.set('taxon', species);       
-  }
-*/
+componentDidMount(){
+  const { sample } = this.props;
+  const occ = sample.occurrences.at(0);
+
+  const english = 'Glow-Worm';
+  const taxon = 'Lampyris noctiluca';
+  const warehouse_id = 125837;
+  const id = 1;
+  const species = { english, id, taxon, warehouse_id  };
+
+  occ.set('taxon', species);
+  sample.save();
+}
+
 
   render() {
     const { sample } = this.props;
@@ -39,10 +40,6 @@ class Record extends React.Component {
     const { location, date, time, condition, temprature, site, chemical, grazed, lights } = sample.attributes;
     const { taxon, female, male, larvae, position, comment } = occ.attributes;
     const species = taxon.english;
-
-    const locks = {};
-    locks[0] = ['smp:location'];
-    locks[1] = ['smp:locationName'];
 
     const isGPSTracking = sample.isGPSRunning();
     let prettyLocation;
@@ -68,12 +65,7 @@ class Record extends React.Component {
         return (
       <IonContent id="record-edit">
         <IonList lines="full">
-        <IonItem routerLink={`/record/${sample.cid}/edit/species`} detail>
-            <IonIcon src="/images/deer.svg" slot="start" />
-            <IonLabel>Species</IonLabel>
-            <IonLabel slot="end">{species}</IonLabel>
-        </IonItem>
-        <IonItem
+          <IonItem
             class="record-location"
             routerLink={`/record/${sample.cid}/edit/location`}
             detail

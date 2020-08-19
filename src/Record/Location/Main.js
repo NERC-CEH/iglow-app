@@ -5,8 +5,6 @@ import {
   IonContent,
   IonLifeCycleContext,
   IonToolbar,
-  IonSelect,
-  IonSelectOption,
   IonLabel,
   IonItem,
 } from '@ionic/react';

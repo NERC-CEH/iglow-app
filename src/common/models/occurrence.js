@@ -42,7 +42,7 @@ export default Indicia.Occurrence.extend({
       taxon: {
         scientific_name: 'Lampyris noctiluca',
         warehouse_id: 125837,
-        english: 'glow-worm',
+        english: 'Glow-Worm',
       },
     };
   },

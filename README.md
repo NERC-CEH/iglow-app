@@ -26,5 +26,5 @@ If you have any questions, please feel free to ask on the
 
 ## Copyright and license
 
-Code copyright 2020 Centre for Ecology & Hydrology.
+Code copyright 2020 UK Centre for Ecology & Hydrology.
 Code released under the [GNU GPL v3 license](LICENSE).

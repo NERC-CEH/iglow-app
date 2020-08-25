@@ -63,7 +63,7 @@ class Component extends React.Component {
     const config = this.props.config || {};
     const type = this.props.type || config.type;
     if (type === 'date' || type === 'time') {
-      this.input.current.open();      
+      this.input.current.open();
       return;
     }
 
@@ -100,16 +100,16 @@ class Component extends React.Component {
     }
 
     if (type === 'time') {
-      return(
+      return (
         <IonItem>
           <IonLabel>hh:mm</IonLabel>
-          <IonDatetime 
+          <IonDatetime
             ref={this.input}
             cacelText='Cancel'
             doneText='OK'
             displayFormat="h:mm A"
             pickerFormat="h:mm A"
-            value={this.state.value} 
+            value={this.state.value}
             onIonChange={val => {
               const timeStr = val.detail.value.split('T')[1] ? val.detail.value.split('T')[1] : val.detail.value.split('T')[0];
               this.onChange({ target: { value: timeStr.slice(0, 5) } });
@@ -120,14 +120,14 @@ class Component extends React.Component {
     }
 
     if (type === 'number') {
-      return(
+      return (
         <IonItem>
-          <IonInput 
-          ref={this.input}
-          type={type}
-          value={this.state.value} 
-          onIonChange={this.onChange}
-        />
+          <IonInput
+            ref={this.input}
+            type={type}
+            value={this.state.value}
+            onIonChange={this.onChange}
+          />
         </IonItem>
       );
     }

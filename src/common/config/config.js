@@ -36,9 +36,7 @@ const CONFIG = {
   },
 
   reports: {
-    url: `${
-      HOST + Indicia.API_BASE + Indicia.API_VER + Indicia.API_REPORTS_PATH
-      }`,
+    url: `${HOST + Indicia.API_BASE + Indicia.API_VER + Indicia.API_REPORTS_PATH}`,
     timeout: 80000,
   },
 
@@ -201,7 +199,7 @@ const CONFIG = {
         },
         taxon: {
           values() {
-            return 125837; //Lampyris noctiluca//
+            return 125837; // Lampyris noctiluca
           },
         },
 

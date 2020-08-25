@@ -7,7 +7,7 @@ import './styles.scss';
 export default () => {
   return (
     <IonPage>
-      <AppHeader title={'Credits'} />
+      <AppHeader title='Credits' />
       <IonContent id="credits" class="ion-padding">
         <IonList>
           <IonItem>
@@ -17,7 +17,7 @@ export default () => {
           </IonItem>
           <IonItem>
             <IonLabel>
-              {`${'Maps produced'} © _________________`}
+              Maps produced © _________________ .
             </IonLabel>
           </IonItem>
           <IonItem lines="none">
@@ -40,7 +40,7 @@ export default () => {
           <IonItem lines="inset">
             <IonLabel>
               <b>
-                  We are very grateful for all the people that helped to create this app:
+                We are very grateful for all the people that helped to create this app:
               </b>
             </IonLabel>
           </IonItem>

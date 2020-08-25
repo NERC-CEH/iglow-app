@@ -71,7 +71,7 @@ class Component extends React.Component {
 
     return (
       <IonContent id="species-profile" class="ion-padding">
-        <img src={`/images/Lampyris-noctiluca_Will-Atkins_small.jpg`} alt="species" />
+        <img src="/images/Lampyris-noctiluca_Will-Atkins_small.jpg" alt="species" />
 
         <IonCardHeader>
           <IonCardTitle>{species.english}</IonCardTitle>

@@ -14,7 +14,7 @@ const SplashScreen = () => {
   }
 
   return (
-    <IonSlides id="welcome" pager="true" >
+    <IonSlides id="welcome" pager="true">
       <IonSlide class="fourth">
         <div className="message">
           <p>To record a glow worm / firefly species anywhere in the UK.</p>

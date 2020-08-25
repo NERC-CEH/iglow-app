@@ -99,7 +99,7 @@ class Component extends React.Component {
 
     return (
       <IonGrid class="ion-no-padding ion-no-margin">
-        <IonRow >{speciesColumns}</IonRow>
+        <IonRow>{speciesColumns}</IonRow>
       </IonGrid>
     );
   };

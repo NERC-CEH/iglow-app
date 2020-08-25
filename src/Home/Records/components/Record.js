@@ -68,7 +68,7 @@ const Record = observer(({ sample }) => {
       </IonItem>
       <IonItemOptions side="end">
         <IonItemOption color="danger" onClick={() => deleteRecord(sample)}>
-          {'Delete'}
+          Delete
         </IonItemOption>
       </IonItemOptions>
     </IonItemSliding>

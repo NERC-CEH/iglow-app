@@ -25,7 +25,6 @@ export default () => (
             When finished, set for submission by pressing the Finish button in the header.
           </p>
         </Collapse>
-
         <Collapse title='Sync. with the website'>
           <p>
             All your saved records will be shown on your account page.
@@ -37,7 +36,7 @@ export default () => (
             </a>
             <br />
             <br />
-              By default a record is in a 'draft' mode which will not be sent to the database until the 'Finish' button in the header is clicked. The application will try to submit your record once there is a good network connection.
+              By default a record is in a &aposdraft&apos mode which will not be sent to the database until the &aposFinish&apos button in the header is clicked. The application will try to submit your record once there is a good network connection.
             <br />
             <br />
             <b>Note:</b>
@@ -51,7 +50,7 @@ export default () => (
           </p>
         </Collapse>
         <IonItemDivider>{'User'}</IonItemDivider>
-        <Collapse title={'Sign in/out or register'}>
+        <Collapse title='Sign in/out or register'>
           <p>
             To login, open the main menu page click Login or Register buttons and follow the instructions.
             <br />

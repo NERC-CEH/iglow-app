@@ -4,9 +4,6 @@ import {
   IonIcon,
   IonContent,
   IonLifeCycleContext,
-  IonToolbar,
-  IonLabel,
-  IonItem,
 } from '@ionic/react';
 import { locate } from 'ionicons/icons';
 import CONFIG from 'config';

@@ -13,7 +13,7 @@ class Component extends React.PureComponent {
     isChecked: false,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.selectedCheckboxes = new Set();
   }
 
@@ -25,8 +25,8 @@ class Component extends React.PureComponent {
     } else {
       this.selectedCheckboxes.add(value);
     }
-    for (const checkbox of this.selectedCheckboxes) {
-      checkedboxes.push(checkbox);
+    for (const chkbox of this.selectedCheckboxes) {
+      checkedboxes.push(chkbox);
     }
     this.props.onChange(checkedboxes);
   };
@@ -90,13 +90,14 @@ class Component extends React.PureComponent {
     }
 
     if (this.props.default) {
-      for (const checkbox of this.props.default) {
-        this.selectedCheckboxes.add(checkbox);
+      for (const chkbox of this.props.default) {
+        this.selectedCheckboxes.add(chkbox);
       }
     }
 
     selection.forEach(option => {
-      if (this.selectedCheckboxes.some(item => item === option.value)) {
+      var val = option;
+      if (this.selectedCheckboxes.some(item => item === val.value)) {
         option.isChecked = true;
       }
     });

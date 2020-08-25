@@ -29,7 +29,7 @@ const Component = ({ onSubmit, schema }) => {
             </IonList>
             <IonList class="login-buttons">
               <IonButton expand="full" color="primary" type="submit">
-                'Reset'
+                Reset
               </IonButton>
             </IonList>
           </Form>

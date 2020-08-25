@@ -28,42 +28,42 @@ class Component extends React.Component {
     this.sample = sample;
     this.occ = sample.occurrences.at(0);
 
-       switch (this.attrName) {
-          case 'date':
-            this.model = this.sample;
-            this.attrConfig = config.indicia.attrs.smp.date;
-            break;
-          case 'female':
-            this.model = this.occ;
-            this.attrConfig = config.indicia.attrs.occ[this.attrName];
-            break;
-          case 'male':
-            this.model = this.occ;
-            this.attrConfig = config.indicia.attrs.occ[this.attrName];
-            break;
-          case 'larvae':
-            this.model = this.occ;
-            this.attrConfig = config.indicia.attrs.occ[this.attrName];
-            break;
-          case 'certainty':
-            this.model = this.occ;
-            this.attrConfig = config.indicia.attrs.occ[this.attrName];
-            break;
-          case 'position':
-            this.model = this.occ;
-            this.attrConfig = config.indicia.attrs.occ[this.attrName];
-            break;
-          case 'comment':
-            this.model = this.occ;
-            this.attrConfig = config.indicia.attrs.occ[this.attrName];
-            break;
-          default:
-            this.model = this.sample;
-            this.attrConfig = config.indicia.attrs.smp[this.attrName];
-       }
+    switch (this.attrName) {
+      case 'date':
+        this.model = this.sample;
+        this.attrConfig = config.indicia.attrs.smp.date;
+        break;
+      case 'female':
+        this.model = this.occ;
+        this.attrConfig = config.indicia.attrs.occ[this.attrName];
+        break;
+      case 'male':
+        this.model = this.occ;
+        this.attrConfig = config.indicia.attrs.occ[this.attrName];
+        break;
+      case 'larvae':
+        this.model = this.occ;
+        this.attrConfig = config.indicia.attrs.occ[this.attrName];
+        break;
+      case 'certainty':
+        this.model = this.occ;
+        this.attrConfig = config.indicia.attrs.occ[this.attrName];
+        break;
+      case 'position':
+        this.model = this.occ;
+        this.attrConfig = config.indicia.attrs.occ[this.attrName];
+        break;
+      case 'comment':
+        this.model = this.occ;
+        this.attrConfig = config.indicia.attrs.occ[this.attrName];
+        break;
+      default:
+        this.model = this.sample;
+        this.attrConfig = config.indicia.attrs.smp[this.attrName];
+    }
 
-       const value = this.model.get(this.attrName);
-       this.state = { currentVal: value };    
+    const value = this.model.get(this.attrName);
+    this.state = { currentVal: value };
   }
 
   onChange = val => {
@@ -71,26 +71,22 @@ class Component extends React.Component {
     this.model.set(this.attrName, val);
     this.model.save();
 
-      if (this.attrConfig.type === 'radio')  {
-        this.context.goBack();
-      }
-    //}
+    if (this.attrConfig.type === 'radio') {
+      this.context.goBack();
+    }
   };
 
   onNumberChange = (val, radioWasClicked) => {
     if (!radioWasClicked) {
       this.setState({ currentVal: val[1] });
       this.model.set('number', val[1]);
-      //this.model.set('number-ranges', null);
       this.model.save();
       return;
     }
 
     this.setState({ currentVal: val[0] });
-    //this.model.set('number-ranges', val[0]);
     this.model.set('number', null);
     this.model.save();
-
     this.context.goBack();
   };
 
@@ -108,11 +104,11 @@ class Component extends React.Component {
       case 'number':
         return (
           <Input
-          type="number"
-          config={this.attrConfig}
-          default={this.state.currentVal}
-          onChange={val => this.onChange(val)}
-        />
+            type="number"
+            config={this.attrConfig}
+            default={this.state.currentVal}
+            onChange={val => this.onChange(val)}
+          />
         );
       case 'date':
         return (
@@ -132,7 +128,6 @@ class Component extends React.Component {
             onChange={val => this.onChange(val)}
           />
         );
-
       case 'radio':
         return (
           <RadioInput
@@ -141,7 +136,6 @@ class Component extends React.Component {
             onChange={val => this.onChange(val)}
           />
         );
-
       case 'checkbox':
         return (
           <CheckboxInput
@@ -150,7 +144,6 @@ class Component extends React.Component {
             onChange={val => this.onChange(val)}
           />
         );
-  
       default:
         // TODO: show 404
         return null;

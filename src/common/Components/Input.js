@@ -1,7 +1,7 @@
 /**
  * Input view.
  */
-import { IonInput, IonItem, IonLabel, IonDatetime, IonSelect, IonSelectOption } from '@ionic/react';
+import { IonInput, IonItem, IonLabel, IonDatetime } from '@ionic/react';
 import DateHelp from 'helpers/date';
 import Device from 'helpers/device';
 import StringHelp from 'helpers/string';

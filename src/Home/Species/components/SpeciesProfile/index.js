@@ -34,13 +34,8 @@ class Component extends React.Component {
   constructor(props) {
     super(props);
     
-    this.state = { hasError: false };
     this.map = React.createRef();
     this.speciesMap = React.createRef();
-  }
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true };
   }
 
   componentDidMount() {
@@ -81,7 +76,7 @@ class Component extends React.Component {
         <IonCardHeader>
           <IonCardTitle>{species.english}</IonCardTitle>
           <IonCardSubtitle>{species.taxon}</IonCardSubtitle>
-          <IonCardSubtitle>Photo: {species.photoAttribution}</IonCardSubtitle>
+          Photo: <IonCardSubtitle>{species.photoAttribution}</IonCardSubtitle>
         </IonCardHeader>
 
         <IonCardContent>

@@ -26,16 +26,14 @@ const Component = observer(({ isLoggedIn, user, logOut, appModel }) => {
 
   return (
     <IonContent class="app-menu">
-      <div class="logo"><img src="/images/logo.png" alt="app logo" /></div>
+      <div className="logo"><img src="/images/logo.png" alt="app logo" /></div>
 
       <IonList lines="full">
         {isLoggedIn && (
           <IonItem detail id="logout-button" onClick={logOut}>
             <IonIcon icon={exit} size="small" slot="start" />
-            {'Logout'}
-            {': '}
-            {user.firstname} 
-            {' '}
+            Logout:
+            {user.firstname}
             {user.secondname}
           </IonItem>
         )}
@@ -43,26 +41,26 @@ const Component = observer(({ isLoggedIn, user, logOut, appModel }) => {
         {!isLoggedIn && (
           <IonItem routerLink="/user/login" detail>
             <IonIcon icon={person} size="small" slot="start" />
-            {'Login'}
+            Login
           </IonItem>
         )}
 
         {!isLoggedIn && (
           <IonItem routerLink="/user/register" detail>
             <IonIcon icon={personAdd} size="small" slot="start" />
-            {'Register'}
+            Register
           </IonItem>
         )}
 
         <IonItemDivider>Info</IonItemDivider>
         <IonItem routerLink="/info/about" detail>
           <IonIcon icon={informationCircleOutline} size="small" slot="start" />
-          {'About'}
+          About
         </IonItem>
 
         <IonItem routerLink="/info/credits" detail>
           <IonIcon icon={heart} size="small" slot="start" />
-          {'Credits'}
+          Credits
         </IonItem>
 
         <IonItem
@@ -71,13 +69,13 @@ const Component = observer(({ isLoggedIn, user, logOut, appModel }) => {
           detail
         >
           <IonIcon icon={lock} size="small" slot="start" />
-          {'Privacy Policy'}
+          Privacy Policy
         </IonItem>
 
         <IonItemDivider>Settings</IonItemDivider>
         <IonItem routerLink="/settings/menu" detail>
           <IonIcon icon={settings} size="small" slot="start" />
-          {'App'}
+          App
         </IonItem>
       </IonList>
     </IonContent>

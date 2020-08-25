@@ -1,14 +1,10 @@
 import React from 'react';
 import { IonContent, IonList, IonItem, IonLabel, IonPage } from '@ionic/react';
 import AppHeader from 'Components/Header';
-import appModel from 'app_model';
 import species from 'common/data/species.data.json';
 import './styles.scss';
 
 export default () => {
-  const { language } = appModel.attrs;
-  const showKarolina = !['mk_MK', 'sr_RS'].includes(language);
-
   return (
     <IonPage>
       <AppHeader title={'Credits'} />
@@ -26,28 +22,25 @@ export default () => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel>
-              {`Icons made by`}{' '}
+              Icons made by
               <a
                 href="https://www.flaticon.com/authors/freepik"
                 title="Freepik"
               >
                 Freepik
-              </a>{' '}
-              {'from'}{' '}
+              </a>
+              from
               <a href="https://www.flaticon.com/" title="Flaticon">
                 www.flaticon.com
               </a>
             </IonLabel>
           </IonItem>
         </IonList>
-
         <IonList lines="none">
           <IonItem lines="inset">
             <IonLabel>
               <b>
-                {
-                  'We are very grateful for all the people that helped to create this app:'
-                }
+                  We are very grateful for all the people that helped to create this app:
               </b>
             </IonLabel>
           </IonItem>
@@ -61,7 +54,7 @@ export default () => {
         <IonList>
           <IonItem>
             <IonLabel>
-              <b>{'Photo credits:'}</b>
+              <b>Photo credits:</b>
             </IonLabel>
           </IonItem>
           <IonItem>
@@ -84,7 +77,6 @@ export default () => {
               </IonItem>
             ))}
           {/* </IonItem> */}
-
         </IonList>
       </IonContent>
     </IonPage>

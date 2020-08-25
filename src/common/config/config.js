@@ -7,16 +7,6 @@ import DateHelp from 'helpers/date';
 const HOST =
   process.env.APP_INDICIA_API_HOST || 'https://www.brc.ac.uk/irecord/';
 
-function flattenForKeys(list) {
-  return list.reduce((agg, item) => {
-    if (item.values) {
-      return { ...agg, ...flattenForKeys(item.values) };
-    }
-
-    return { ...agg, ...{ [item.value]: item.id } };
-  }, {});
-}
-
 const CONFIG = {
   // variables replaced on build
   version: process.env.APP_VERSION,
@@ -48,7 +38,7 @@ const CONFIG = {
   reports: {
     url: `${
       HOST + Indicia.API_BASE + Indicia.API_VER + Indicia.API_REPORTS_PATH
-    }`,
+      }`,
     timeout: 80000,
   },
 
@@ -80,14 +70,14 @@ const CONFIG = {
         location_altitude: { id: 283 },
         location_altitude_accuracy: { id: 284 },
         location_source: { id: 760 },
-        location_gridref: { id: 335 },          
+        location_gridref: { id: 335 },
 
-        access:{
-          label:'Is location publicly?',
+        access: {
+          label: 'Is location publicly?',
           type: 'radio',
           info: 'Is the location publicly accessible?',
           id: 727,
-          values:{
+          values: {
             Yes: 5790,
             No: 5791,
             Partly: 5793,
@@ -104,7 +94,7 @@ const CONFIG = {
         },
         device_version: { id: 759 },
         app_version: { id: 1139 },
-          
+
         date: {
           label: 'Date',
           values(date) {
@@ -115,13 +105,13 @@ const CONFIG = {
           max: () => new Date(),
         },
 
-        time:{
-          label:'Time',
+        time: {
+          label: 'Time',
           id: 34,
           type: 'time',
         },
 
-        condition:{
+        condition: {
           label: 'Conditions',
           type: 'radio',
           info: 'Please specify the weather condition.',
@@ -134,9 +124,9 @@ const CONFIG = {
           },
         },
 
-        temprature:{
-          label:'Temprature (Celcius):',
-          id:2,
+        temprature: {
+          label: 'Temprature (Celcius):',
+          id: 2,
           type: 'number',
         },
 
@@ -208,13 +198,13 @@ const CONFIG = {
       occ: {
         training: {
           id: 'training',
-        }, 
+        },
         taxon: {
           values() {
-            return 125837; //Lampyris noctiluca
+            return 125837; //Lampyris noctiluca//
           },
         },
-       
+
         female: {
           label: 'Females?',
           id: 509,
@@ -278,7 +268,7 @@ const CONFIG = {
           label: 'Anything else?',
           type: 'textarea',
         },
-      },        
+      },
     },
   },
 };

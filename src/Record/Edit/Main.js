@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IonList, IonItem, IonIcon, IonLabel, IonContent } from '@ionic/react';
-import { map, calendar, clipboard, clock, sunny, thermometer, pin, flask, flower, flashlight} from 'ionicons/icons';
+import { map, calendar, clipboard, clock, sunny, thermometer, pin, flask, flower, flashlight } from 'ionicons/icons';
 import { observer } from 'mobx-react';
 import dateHelp from 'helpers/date';
 import './styles.scss';
@@ -16,22 +16,22 @@ const { print: prettyDate } = dateHelp;
 @observer
 class Record extends React.Component {
   static propTypes = {
-    sample: PropTypes.object.isRequired,     
+    sample: PropTypes.object.isRequired,
   };
 
-componentDidMount(){
-  const { sample } = this.props;
-  const occ = sample.occurrences.at(0);
+  componentDidMount() {
+    const { sample } = this.props;
+    const occ = sample.occurrences.at(0);
 
-  const english = 'Glow-Worm';
-  const taxon = 'Lampyris noctiluca';
-  const warehouse_id = 125837;
-  const id = 1;
-  const species = { english, id, taxon, warehouse_id };
+    const english = 'Glow-Worm';
+    const taxon = 'Lampyris noctiluca';
+    const warehouse_id = 125837;
+    const id = 1;
+    const species = { english, id, taxon, warehouse_id };
 
-  occ.set('taxon', species);
-  sample.save();
-}
+    occ.set('taxon', species);
+    sample.save();
+  }
 
 
   render() {
@@ -61,7 +61,7 @@ componentDidMount(){
         ? ''
         : sample.get('manual_location_accuracy');
 
-        return (
+    return (
       <IonContent id="record-edit">
         <IonList lines="full">
           <IonItem

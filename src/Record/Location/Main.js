@@ -32,9 +32,7 @@ class LocationAttr extends Component {
     isGPSTracking: PropTypes.bool.isRequired,
     toggleGPStracking: PropTypes.func.isRequired,
     setLocation: PropTypes.func.isRequired,
-    setLocationAccurracy: PropTypes.func.isRequired,
     location: PropTypes.object,
-    accurracy: PropTypes.string,
   };
 
   constructor(props) {
@@ -88,31 +86,6 @@ class LocationAttr extends Component {
     setTimeout(() => this.selectRef.current.open(), 50); // for some reason without a delay the options aren't present the first time
   };
 
-  getToolbar = () => {
-    const { location } = this.props;
-
-    if (!location || !location.latitude) {
-      return (
-        <IonItem>
-          <IonLabel color="light" className="ion-text-center ion-text-wrap">
-            Please use the GPS or tap on the map to select your location
-          </IonLabel>
-        </IonItem>
-      );
-    }
-
-    if (location.source !== 'map' && location.accuracy) {
-      return (
-        <IonItem>
-          <IonLabel color="light" className="ion-text-center ion-text-wrap">
-            {`GPS Accuracy: ${location.accuracy}m`}
-          </IonLabel>
-        </IonItem>
-      );
-    }
-  };
-  
-
   render() {
     const { isGPSTracking, toggleGPStracking, location } = this.props;
 
@@ -123,7 +96,6 @@ class LocationAttr extends Component {
 
     return (
       <IonContent>
-        <IonToolbar id="location-toolbar">{this.getToolbar()}</IonToolbar>
         <Map ref={this.map} zoom={DEFAULT_ZOOM} onClick={this.handleClick}>
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

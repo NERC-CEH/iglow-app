@@ -102,7 +102,7 @@ class Component extends React.Component {
         <IonRow >{speciesColumns}</IonRow>
       </IonGrid>
     );
-  }
+  };
 
   getList = () => {
     const { savedSamples, onSpeciesClick } = this.props;

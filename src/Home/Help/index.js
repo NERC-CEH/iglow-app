@@ -17,20 +17,18 @@ export default () => (
         <IonItemDivider>Records</IonItemDivider>
         <Collapse title='How to start a record'>
           <p>
-            {'To start a new record you can press the plus button'}
+            To start a new record you can press the plus button
             <IonIcon icon={add} />
-            {'in the home page footer.'}
+            in the home page footer.
             <br />
             <br />
-            {
-              'When finished, set for submission by pressing the Finish button in the header.'
-            }
+            When finished, set for submission by pressing the Finish button in the header.
           </p>
         </Collapse>
 
         <Collapse title='Sync. with the website'>
           <p>
-            {'All your saved records will be shown on your account page.'}{' '}
+            All your saved records will be shown on your account page.
             <IonIcon icon={person} />
             <br />
             <br />
@@ -39,56 +37,39 @@ export default () => (
             </a>
             <br />
             <br />
-            {
-              `By default a record is in a 'draft' mode which will not be sent to the database until the 'Finish' button in the header is clicked. The application will try to submit your record once there is a good network connection.`
-            }
+              By default a record is in a 'draft' mode which will not be sent to the database until the 'Finish' button in the header is clicked. The application will try to submit your record once there is a good network connection.
             <br />
             <br />
-            <b>{'Note'}:</b>{' '}
-            {
-              'you have to be signed in to your website account and have a network connection, for the records to be automatically synchronised in the background'
-            }
-            .
+            <b>Note:</b>
+              you have to be signed in to your website account and have a network connection, for the records to be automatically synchronised in the background.
             <br />
           </p>
         </Collapse>
         <Collapse title='Delete a record'>
           <p>
-            {
-              'To delete a record, swipe it left in your account page and click the delete button.'
-            }
+            To delete a record, swipe it left in your account page and click the delete button.
           </p>
         </Collapse>
-
         <IonItemDivider>{'User'}</IonItemDivider>
         <Collapse title={'Sign in/out or register'}>
           <p>
-            {
-              'To login, open the main menu page click Login or Register buttons and follow the instructions.'
-            }
+            To login, open the main menu page click Login or Register buttons and follow the instructions.
             <br />
             <br />
-            {
-              'To logout, visit the main menu page and click the logout button.'
-            }
-            .
+              To logout, visit the main menu page and click the logout button.
             <br />
             <br />
-            <b>Note:</b>{' '}
-            {
-              'after registering a new account you must verify your email address by clicking on a verification link sent to your email'
-            }
-            .
+            <b>Note:</b>
+              after registering a new account you must verify your email address by clicking on a verification link sent to your email
           </p>
         </Collapse>
-
         <IonItemDivider>Other</IonItemDivider>
         <Collapse title='Reset the application'>
           <p>
-            {'Go to the application settings page'}{' '}
-            <IonIcon icon={settings} /> {'and click on the Reset'}{' '}
+            Go to the application settings page
+            <IonIcon icon={settings} /> and click on the Reset
             <IonIcon icon={undo} />
-            {'button'}.
+            button.
           </p>
         </Collapse>
       </IonList>

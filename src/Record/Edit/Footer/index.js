@@ -17,10 +17,7 @@ import './styles.scss';
 function photoDelete(photo) {
   alert({
     header: 'Delete',
-    message: `${`Are you sure you want to remove this photo from the record?`}
-       </br></br> 
-       ${'Note: it will remain in the gallery.'}`
-       ,
+    message: 'Are you sure you want to remove this photo from the record? </br></br> Note: it will remain in the gallery.',
     buttons: [
       {
         text: 'Cancel',

@@ -10,7 +10,7 @@ import {
 
 class Component extends React.PureComponent {
   state = {
-     isChecked: false,
+    isChecked: false,
   }
 
   componentWillMount = () => {
@@ -19,16 +19,16 @@ class Component extends React.PureComponent {
 
   onChange = e => {
     const { value } = e.target;
-    const checkedboxes=[];
-      if(this.selectedCheckboxes.has(value)){
-          this.selectedCheckboxes.delete(value);
-      } else {
-          this.selectedCheckboxes.add(value);
-      }
-      for (const checkbox of this.selectedCheckboxes){
-         checkedboxes.push(checkbox);
-      }
-      this.props.onChange(checkedboxes);
+    const checkedboxes = [];
+    if (this.selectedCheckboxes.has(value)) {
+      this.selectedCheckboxes.delete(value);
+    } else {
+      this.selectedCheckboxes.add(value);
+    }
+    for (const checkbox of this.selectedCheckboxes) {
+      checkedboxes.push(checkbox);
+    }
+    this.props.onChange(checkedboxes);
   };
 
   render() {
@@ -83,28 +83,28 @@ class Component extends React.PureComponent {
 
     let { selection } = this.props;
 
-    if (!selection) {  
-      selection = Object.keys(config.values).map(key => ({ value: key, isChecked: isChecked  }));
+    if (!selection) {
+      selection = Object.keys(config.values).map(key => ({ value: key, isChecked: isChecked }));
       // add default
       config.default && selection.unshift({ value: config.default });
     }
 
-    if(this.props.default){
-      for (const checkbox of this.props.default){
+    if (this.props.default) {
+      for (const checkbox of this.props.default) {
         this.selectedCheckboxes.add(checkbox);
       }
     }
-    
-    selection.forEach(option =>{
-      if (this.selectedCheckboxes.some(item=> item === option.value)){
-            option.isChecked = true;
+
+    selection.forEach(option => {
+      if (this.selectedCheckboxes.some(item => item === option.value)) {
+        option.isChecked = true;
       }
     });
 
 
     const inputs = selection.map(option => (
       <IonItem key={option.value}>
-       <IonLabel>{option.value}</IonLabel>
+        <IonLabel>{option.value}</IonLabel>
         <IonCheckbox
           value={option.value}
           checked={option.isChecked}

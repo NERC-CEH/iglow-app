@@ -39,7 +39,7 @@ class Component extends React.Component {
           </div>
         )}
         <IonTextarea
-          placeholder={'Enter more information here...'}
+          placeholder='Enter more information here...'
           value={this.state.value}
           onIonChange={e => this.onChange(e.target.value)}
           debounce={200}

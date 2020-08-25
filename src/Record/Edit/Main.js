@@ -25,7 +25,7 @@ class Record extends React.Component {
 
     const english = 'Glow-Worm';
     const taxon = 'Lampyris noctiluca';
-    const warehouse_id = 125837;
+    const { warehouse_id } = 125837;
     const id = 1;
     const species = { english, id, taxon, warehouse_id };
 

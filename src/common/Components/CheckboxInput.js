@@ -9,12 +9,12 @@ import {
 } from '@ionic/react';
 
 class Component extends React.PureComponent {
+  constructor(props) {
+    this.selectedCheckboxes = new Set();
+  }
+  
   state = {
     isChecked: false,
-  }
-
-  async componentWillMount() {
-    this.selectedCheckboxes = new Set();
   }
 
   onChange = e => {
@@ -92,21 +92,19 @@ class Component extends React.PureComponent {
     }
 
     if (this.props.default) {
-      this.props.default.map(option =>(
-          this.selectedCheckboxes.add(option)
+      this.props.default.map(option => (
+        this.selectedCheckboxes.add(option)
       ));
     }
 
-    selection.forEach(option => {
-      let val = option;
-      if (this.selectedCheckboxes.some(item => item === val.value)) {
-        val.isChecked = true;
-        option = val;
+    const selected = selection.map(option => {
+      if (this.selectedCheckboxes.some(item => item === option.value)) {
+        option.isChecked = true;
       }
     });
 
 
-    const inputs = selection.map(option => (
+    const inputs = selected.map(option => (
       <IonItem key={option.value}>
         <IonLabel>{option.value}</IonLabel>
         <IonCheckbox

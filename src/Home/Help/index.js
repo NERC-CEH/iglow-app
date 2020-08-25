@@ -35,12 +35,10 @@ export default () => (
               https://www.brc.ac.uk/irecord
             </a>
             <br />
+            <br />By default a record is in a &aposdraft&apos mode which will not be sent to the database until the &aposFinish&apos button in the header is clicked. The application will try to submit your record once there is a good network connection.
             <br />
-              By default a record is in a &aposdraft&apos mode which will not be sent to the database until the &aposFinish&apos button in the header is clicked. The application will try to submit your record once there is a good network connection.
             <br />
-            <br />
-            <b>Note:</b>
-              you have to be signed in to your website account and have a network connection, for the records to be automatically synchronised in the background.
+            <b>Note:</b>you have to be signed in to your website account and have a network connection, for the records to be automatically synchronised in the background.
             <br />
           </p>
         </Collapse>
@@ -49,17 +47,15 @@ export default () => (
             To delete a record, swipe it left in your account page and click the delete button.
           </p>
         </Collapse>
-        <IonItemDivider>{'User'}</IonItemDivider>
+        <IonItemDivider>User</IonItemDivider>
         <Collapse title='Sign in/out or register'>
           <p>
             To login, open the main menu page click Login or Register buttons and follow the instructions.
             <br />
+            <br />To logout, visit the main menu page and click the logout button.
             <br />
-              To logout, visit the main menu page and click the logout button.
             <br />
-            <br />
-            <b>Note:</b>
-              after registering a new account you must verify your email address by clicking on a verification link sent to your email
+            <b>Note:</b>after registering a new account you must verify your email address by clicking on a verification link sent to your email
           </p>
         </Collapse>
         <IonItemDivider>Other</IonItemDivider>

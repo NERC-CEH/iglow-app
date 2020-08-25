@@ -66,9 +66,7 @@ class Component extends React.Component {
           </IonItem>
           <IonItem>
             <IonLabel class="ion-text-wrap">
-              <IonNote color="primary">
-                  Mark any new records as 'training' and exclude from all reports.
-              </IonNote>
+              <IonNote color="primary">Mark any new records as &apostraining&apos and exclude from all reports.</IonNote>
             </IonLabel>
           </IonItem>
           <IonItem>

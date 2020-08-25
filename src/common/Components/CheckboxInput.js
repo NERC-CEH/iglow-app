@@ -10,13 +10,15 @@ import {
 
 class Component extends React.PureComponent {
   constructor(props) {
+    super(props);
     this.selectedCheckboxes = new Set();
   }
-  
+
   state = {
     isChecked: false,
   }
 
+  
   onChange = e => {
     const { value } = e.target;
     const checkedboxes = [];

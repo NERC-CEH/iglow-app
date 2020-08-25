@@ -19,13 +19,13 @@ class Record extends React.Component {
     sample: PropTypes.object.isRequired,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { sample } = this.props;
     const occ = sample.occurrences.at(0);
 
     const english = 'Glow-Worm';
     const taxon = 'Lampyris noctiluca';
-    const { warehouse_id } = 125837;
+    const warehouse_id  = 125837;
     const id = 1;
     const species = { english, id, taxon, warehouse_id };
 

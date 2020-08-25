@@ -80,7 +80,7 @@ class Component extends React.Component {
 
           <IonItem id="app-reset-btn" onClick={() => resetDialog(resetApp)}>
             <IonIcon icon={undo} size="small" slot="start" />
-            {'Reset'}
+            <IonLabel>Reset</IonLabel>
           </IonItem>
         </IonList>
 

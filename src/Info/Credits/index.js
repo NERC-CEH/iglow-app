@@ -64,6 +64,12 @@ export default () => {
               <b>{'Photo credits:'}</b>
             </IonLabel>
           </IonItem>
+          <IonItem>
+            <IonLabel>Welcome screen : Kip Loades</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Home screen : Julian Hodson</IonLabel>
+          </IonItem>
           {/* <IonItem> */}
           {species
             .filter(s => s.photoAttribution)
@@ -78,6 +84,7 @@ export default () => {
               </IonItem>
             ))}
           {/* </IonItem> */}
+
         </IonList>
       </IonContent>
     </IonPage>

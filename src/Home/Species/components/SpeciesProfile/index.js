@@ -81,7 +81,7 @@ class Component extends React.Component {
         <IonCardHeader>
           <IonCardTitle>{species.english}</IonCardTitle>
           <IonCardSubtitle>{species.taxon}</IonCardSubtitle>
-          <IonCardSubtitle>Photo: {species.copyright}</IonCardSubtitle>
+          <IonCardSubtitle>Photo: {species.photoAttribution}</IonCardSubtitle>
         </IonCardHeader>
 
         <IonCardContent>

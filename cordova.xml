@@ -58,6 +58,11 @@
     <preference name="BackupWebStorage" value="none"/>
     <preference name="KeyboardDisplayRequiresUserAction" value="false"/>
     <preference name="KeyboardResizeMode" value="body" />
+    <preference name="WKWebViewOnly" value="true" />
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
 
     <!--see https://calendee.com/2015/03/03/polish-app-launch-with-cordova-splashscreen-plugin/-->
     <preference name="AutoHideSplashScreen" value="false" />
